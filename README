@@ -1,0 +1,6 @@
+PubNative Android SDK with Demo App.
+
+* sdk - library that provides core functionality
+* demo - Android app utilizing the library.
+
+Both contain Eclipse project files. 
