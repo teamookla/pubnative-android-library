@@ -26,7 +26,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.pubnative.demo.R;
-import net.pubnative.sdk.Contract;
+import net.pubnative.sdk.PubNativeContract;
 import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.request.AdRequest;
 import net.pubnative.sdk.util.KeyUtil;
@@ -49,7 +49,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 public class RequestActivity extends Activity implements OnClickListener,
-		Contract {
+		PubNativeContract {
 
 	private static final String APP_TOKEN = "af117147db28ef258bfd6d042c718b537bc6a2b0760aca3d073a1c80865545f9";
 

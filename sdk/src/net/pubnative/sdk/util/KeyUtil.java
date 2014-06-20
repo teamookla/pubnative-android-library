@@ -29,8 +29,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import net.pubnative.sdk.Contract.RequestInfo;
-import net.pubnative.sdk.Contract.UserIdentifiers;
+import net.pubnative.sdk.PubNativeContract.RequestInfo;
+import net.pubnative.sdk.PubNativeContract.UserIdentifier;
 
 import org.droidparts.util.L;
 
@@ -47,7 +47,7 @@ public class KeyUtil {
 		if (keys == null) {
 			ArrayList<String> list = new ArrayList<>();
 			for (Class<?> cl : new Class<?>[] { RequestInfo.class,
-					UserIdentifiers.class }) {
+					UserIdentifier.class }) {
 				for (Field f : cl.getFields()) {
 					Object val;
 					try {
@@ -97,29 +97,29 @@ public class KeyUtil {
 			return (loc != null) ? String.valueOf(loc.getLatitude()) : null;
 		case RequestInfo.LONG:
 			return (loc != null) ? String.valueOf(loc.getLongitude()) : null;
-		case UserIdentifiers.MAC_ADDRESS:
+		case UserIdentifier.MAC_ADDRESS:
 			return mac;
-		case UserIdentifiers.MAC_ADDRESS_SHA1:
+		case UserIdentifier.MAC_ADDRESS_SHA1:
 			return sha1(mac);
-		case UserIdentifiers.MAC_ADDRESS_MD5:
+		case UserIdentifier.MAC_ADDRESS_MD5:
 			return md5(mac);
-		case UserIdentifiers.ANDROID_IMEI:
+		case UserIdentifier.ANDROID_IMEI:
 			return imei;
-		case UserIdentifiers.ANDROID_IMEI_SHA1:
+		case UserIdentifier.ANDROID_IMEI_SHA1:
 			return sha1(imei);
-		case UserIdentifiers.ANDROID_IMEI_MD5:
+		case UserIdentifier.ANDROID_IMEI_MD5:
 			return md5(imei);
-		case UserIdentifiers.ANDROID_ID:
+		case UserIdentifier.ANDROID_ID:
 			return androidId;
-		case UserIdentifiers.ANDROID_ID_SHA1:
+		case UserIdentifier.ANDROID_ID_SHA1:
 			return sha1(androidId);
-		case UserIdentifiers.ANDROID_ID_MD5:
+		case UserIdentifier.ANDROID_ID_MD5:
 			return md5(androidId);
-		case UserIdentifiers.ANDROID_ADVERTISER_ID:
+		case UserIdentifier.ANDROID_ADVERTISER_ID:
 			return advId;
-		case UserIdentifiers.ANDROID_ADVERTISER_ID_SHA1:
+		case UserIdentifier.ANDROID_ADVERTISER_ID_SHA1:
 			return sha1(advId);
-		case UserIdentifiers.ANDROID_ADVERTISER_ID_MD5:
+		case UserIdentifier.ANDROID_ADVERTISER_ID_MD5:
 			return md5(advId);
 		default:
 			return null;

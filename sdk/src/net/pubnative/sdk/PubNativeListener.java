@@ -2,8 +2,8 @@ package net.pubnative.sdk;
 
 public interface PubNativeListener {
 
-	void onError(Exception ex);
-
 	void onLoaded();
+
+	void onError(Exception ex);
 
 }

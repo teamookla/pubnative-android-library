@@ -23,7 +23,7 @@ package net.pubnative.sdk.task;
 
 import java.util.ArrayList;
 
-import net.pubnative.sdk.Contract.Response;
+import net.pubnative.sdk.PubNativeContract.Response;
 import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.request.AdRequest;
 import net.pubnative.sdk.model.response.Ad;

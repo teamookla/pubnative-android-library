@@ -24,8 +24,8 @@ package net.pubnative.sdk.model.request;
 import java.io.Serializable;
 import java.util.HashMap;
 
-import net.pubnative.sdk.Contract;
-import net.pubnative.sdk.Contract.RequestInfo;
+import net.pubnative.sdk.PubNativeContract;
+import net.pubnative.sdk.PubNativeContract.RequestInfo;
 import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.util.KeyUtil;
 import android.content.Context;
@@ -65,13 +65,13 @@ public class AdRequest implements Serializable {
 	}
 
 	public Uri buildUri() {
-		Uri.Builder bldr = Uri.parse(Contract.BASE_URL).buildUpon();
+		Uri.Builder bldr = Uri.parse(PubNativeContract.BASE_URL).buildUpon();
 		switch (format) {
 		case NATIVE:
-			bldr.appendPath(Contract.NATIVE);
+			bldr.appendPath(PubNativeContract.NATIVE);
 			break;
 		case IMAGE:
-			bldr.appendPath(Contract.IMAGE);
+			bldr.appendPath(PubNativeContract.IMAGE);
 			break;
 		default:
 			throw new IllegalArgumentException(format.toString());

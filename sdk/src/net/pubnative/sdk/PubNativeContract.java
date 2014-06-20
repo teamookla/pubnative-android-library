@@ -21,7 +21,7 @@
  */
 package net.pubnative.sdk;
 
-public interface Contract {
+public interface PubNativeContract {
 
 	String BASE_URL = "http://api.pubnative.net/api/partner/v2/promotions/";
 
@@ -51,10 +51,9 @@ public interface Contract {
 		String AGE = "age";
 		String KEYWORDS = "keywords";
 		String PARTNER = "partner";
-
 	}
 
-	interface UserIdentifiers {
+	interface UserIdentifier {
 
 		String USER_UNIQUE_ID = "user_unique_id";
 		String MAC_ADDRESS = "mac_address";

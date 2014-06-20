@@ -25,8 +25,8 @@ import net.pubnative.demo.R;
 import net.pubnative.demo.adapter.AbstractAdHolderAdapter;
 import net.pubnative.demo.adapter.ImageAdAdapter;
 import net.pubnative.demo.adapter.NativeAdAdapter;
-import net.pubnative.sdk.Contract;
 import net.pubnative.sdk.PubNative;
+import net.pubnative.sdk.PubNativeContract;
 import net.pubnative.sdk.PubNativeListener;
 import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.holder.AdHolder;
@@ -45,7 +45,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 
 public class RenderedResponseActivity extends AbstractResponseActivity
-		implements Contract, OnItemClickListener {
+		implements PubNativeContract, OnItemClickListener {
 
 	public static Intent getIntent(Context ctx, AdRequest req) {
 		return getIntent(ctx, req, RenderedResponseActivity.class);

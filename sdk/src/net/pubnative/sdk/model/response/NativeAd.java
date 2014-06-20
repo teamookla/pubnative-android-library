@@ -21,11 +21,11 @@
  */
 package net.pubnative.sdk.model.response;
 
-import net.pubnative.sdk.Contract;
+import net.pubnative.sdk.PubNativeContract;
 
 import org.droidparts.annotation.json.Key;
 
-public class NativeAd extends Ad implements Contract.Response.NativeFormat {
+public class NativeAd extends Ad implements PubNativeContract.Response.NativeFormat {
 	private static final long serialVersionUID = 1L;
 
 	@Key(name = TITLE)
