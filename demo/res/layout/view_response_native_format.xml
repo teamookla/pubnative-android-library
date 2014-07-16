@@ -45,12 +45,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp" />
 
-    <ImageView
-        android:id="@+id/view_banner"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:adjustViewBounds="true" />
+        android:layout_marginTop="10dp" >
+
+        <TextureView
+            android:id="@+id/view_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/view_banner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/view_download"

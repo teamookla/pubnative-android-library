@@ -1,0 +1,96 @@
+<VAST xmlns:MM="http://api.mediamind.com/V1/DataContracts" version="3.0">
+<Ad id="8192328">
+<InLine>
+<AdSystem>
+<![CDATA[ MediaMind ]]>
+</AdSystem>
+<AdTitle>
+<![CDATA[ armani si preroll ]]>
+</AdTitle>
+<Description>
+<![CDATA[ armani si preroll ]]>
+</Description>
+<Impression id="Impression">
+<![CDATA[
+http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=riis&pl=VAST&optOut=0&pos=2871&c=24&ai=16929219&pluid=0&ord=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861&pcp=
+]]>
+</Impression>
+<Creatives>
+<Creative id="16929219" AdID="16929219" sequence="1">
+<Linear>
+<Duration>00:00:31</Duration>
+<TrackingEvents>
+<Tracking event="creativeView">
+<![CDATA[
+http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=isi&pl=VAST&optOut=0&interactionsStr=16929219~~0^CreativeView.Linear.55334985~0~0~1~0~0~55334985~0&pos=2871&ebRandom=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861
+]]>
+</Tracking>
+<Tracking event="start">
+<![CDATA[
+http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=isi&pl=VAST&optOut=0&interactionsStr=16929219~~0^ebVideoStarted~0~0~1~0~1~55334985~0&pos=2871&ebRandom=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861
+]]>
+</Tracking>
+<Tracking event="firstQuartile">
+<![CDATA[
+http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=isi&pl=VAST&optOut=0&interactionsStr=16929219~~0^eb25Per_Played~0~0~1~0~1~55334985~0&pos=2871&ebRandom=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861
+]]>
+</Tracking>
+<Tracking event="midpoint">
+<![CDATA[
+http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=isi&pl=VAST&optOut=0&interactionsStr=16929219~~0^eb50Per_Played~0~0~1~0~1~55334985~0&pos=2871&ebRandom=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861
+]]>
+</Tracking>
+<Tracking event="thirdQuartile">
+<![CDATA[
+http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=isi&pl=VAST&optOut=0&interactionsStr=16929219~~0^eb75Per_Played~0~0~1~0~1~55334985~0&pos=2871&ebRandom=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861
+]]>
+</Tracking>
+<Tracking event="complete">
+<![CDATA[
+http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=isi&pl=VAST&optOut=0&interactionsStr=16929219~~0^ebVideoFullPlay~0~0~1~0~1~55334985~0&pos=2871&ebRandom=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861
+]]>
+</Tracking>
+<Tracking event="mute">
+<![CDATA[
+http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=isi&pl=VAST&optOut=0&interactionsStr=16929219~~0^ebVideoMute~0~0~1~1~1~55334985~0&pos=2871&ebRandom=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861
+]]>
+</Tracking>
+<Tracking event="unmute">
+<![CDATA[
+http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=isi&pl=VAST&optOut=0&interactionsStr=16929219~~0^ebVideoUnmute~0~0~1~1~1~55334985~0&pos=2871&ebRandom=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861
+]]>
+</Tracking>
+<Tracking event="pause">
+<![CDATA[
+http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=isi&pl=VAST&optOut=0&interactionsStr=16929219~~0^ebVideoPause~0~0~1~1~1~55334985~0&pos=2871&ebRandom=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861
+]]>
+</Tracking>
+<Tracking event="fullscreen">
+<![CDATA[
+http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=isi&pl=VAST&optOut=0&interactionsStr=16929219~~0^ebFSStart~0~0~1~1~1~55334985~0&pos=2871&ebRandom=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861
+]]>
+</Tracking>
+</TrackingEvents>
+<VideoClicks>
+<ClickThrough>
+<![CDATA[
+http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=isi&pl=VAST&optOut=0&interactionsStr=16929219~~0^Click.Linear.55334985~0~1~1~0~0~55334985~0&pos=2871&ebRandom=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861&rtu=$$http://www.behindsi.com/?utm_source=Coolshark&utm_medium=Haberturk&utm_campaign=BehindSi$$
+]]>
+</ClickThrough>
+</VideoClicks>
+<MediaFiles>
+<MediaFile id="55334985" height="480" width="854" bitrate="662" type="video/mp4" delivery="progressive" maintainAspectRatio="true" scalable="true">
+<![CDATA[
+http://ds.serving-sys.com/BurstingRes/Site-13486/Type-16/0c31159e-bc34-4e74-b963-9efaee4f0226.mp4
+]]>
+</MediaFile>
+</MediaFiles>
+</Linear>
+</Creative>
+<Creative id="16929219" AdID="16929219" sequence="1">
+<CompanionAds/>
+</Creative>
+</Creatives>
+</InLine>
+</Ad>
+</VAST>

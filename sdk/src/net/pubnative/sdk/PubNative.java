@@ -23,15 +23,15 @@ package net.pubnative.sdk;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static net.pubnative.sdk.util.ViewUtil.getVisiblePercent;
+import static org.droidparts.util.ui.ViewUtils.setInvisible;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.WeakHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-import net.pubnative.sdk.model.AdFormat;
+import net.pubnative.sdk.misc.SurfaceTextureListenerAdapter;
 import net.pubnative.sdk.model.holder.AdHolder;
 import net.pubnative.sdk.model.holder.ImageAdHolder;
 import net.pubnative.sdk.model.holder.NativeAdHolder;
@@ -40,6 +40,7 @@ import net.pubnative.sdk.model.response.Ad;
 import net.pubnative.sdk.task.GetAdsTask;
 import net.pubnative.sdk.task.SendConfirmationTask;
 import net.pubnative.sdk.util.CachelessImageFetcher;
+import net.pubnative.sdk.util.ViewUtil;
 import net.pubnative.sdk.util.WebRedirector;
 
 import org.droidparts.concurrent.task.AsyncTaskResultListener;
@@ -52,29 +53,41 @@ import org.droidparts.util.L;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.graphics.SurfaceTexture;
+import android.media.MediaPlayer;
+import android.media.MediaPlayer.OnCompletionListener;
+import android.media.MediaPlayer.OnPreparedListener;
+import android.view.Surface;
+import android.view.TextureView;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 public class PubNative {
 
 	public static void showAd(String appToken, AdHolder<?>... holders) {
 		AdRequest req = null;
 		if (holders.length > 0) {
-			AdFormat format = (holders[0].getClass() == NativeAdHolder.class) ? AdFormat.NATIVE
-					: AdFormat.IMAGE;
-			req = new AdRequest(appToken, format);
+			req = new AdRequest(appToken, holders[0].getFormat());
 			req.setAdCount(holders.length);
 		}
 		showAd(req, holders);
 	}
 
 	public static void showAd(AdRequest req, AdHolder<?>... holders) {
+		counter = 0;
+		loaded = false;
 		if (holders.length > 0) {
-			Context ctx = holders[0].view.getContext();
+			ctx = holders[0].getView().getContext().getApplicationContext();
+			imageFetcher = new CachelessImageFetcher(ctx);
 			new GetAdsTask<>(ctx, req, makeResultListener(listener, holders))
 					.execute();
 		} else {
-			notifyListenerOnError(new IllegalArgumentException("0 holders."));
+			onError(new IllegalArgumentException("0 holders."));
 		}
 	}
 
@@ -100,6 +113,23 @@ public class PubNative {
 				.doBackgroundRedirect(timeout);
 	}
 
+	public static void onPause() {
+		if (loaded) {
+			setExecRunning(false);
+			for (Data d : holders) {
+				if (d.isPlaying()) {
+					d.mp.pause();
+				}
+			}
+		}
+	}
+
+	public static void onResume() {
+		if (loaded) {
+			setExecRunning(true);
+		}
+	}
+
 	//
 
 	@SuppressWarnings("unchecked")
@@ -109,12 +139,9 @@ public class PubNative {
 
 			@Override
 			public void onAsyncTaskSuccess(ArrayList<Ad> result) {
-				Context ctx = holders[0].view.getContext();
-				setUp(ctx);
 				if (result.isEmpty()) {
-					notifyListenerOnLoaded();
+					onLoaded();
 				} else {
-					counter = 0;
 					for (int i = 0; i < result.size(); i++) {
 						AdHolder<T> holder = (AdHolder<T>) holders[i];
 						holder.ad = (T) result.get(i);
@@ -125,7 +152,7 @@ public class PubNative {
 
 			@Override
 			public void onAsyncTaskFailure(Exception ex) {
-				notifyListenerOnError(ex);
+				onError(ex);
 			}
 
 		};
@@ -133,71 +160,155 @@ public class PubNative {
 	}
 
 	private static void processAd(AdHolder<?> holder) {
+		Data d = new Data(holder);
 		if (holder instanceof ImageAdHolder) {
-			processImageAd((ImageAdHolder) holder);
+			processImageAd(d);
 		} else if (holder instanceof NativeAdHolder) {
-			processNativeAd((NativeAdHolder) holder);
+			processNativeAd(d);
 		} else {
 			throw new IllegalArgumentException();
 		}
+		holders.add(d);
 	}
 
-	private static void processNativeAd(NativeAdHolder holder) {
-		if (holder.titleView != null) {
-			holder.titleView.setText(holder.ad.title);
-		}
-		if (holder.subtitleView != null) {
-			holder.subtitleView.setText(holder.ad.category);
-		}
-		if (holder.ratingView != null) {
-			holder.ratingView.setRating(holder.ad.storeRating);
-		}
-		if (holder.descriptionView != null) {
-			holder.descriptionView.setText(holder.ad.description);
-		}
-		if (holder.downloadView != null) {
-			holder.downloadView.setText(holder.ad.ctaText);
-		}
+	private static void processImageAd(Data d) {
+		ImageAdHolder holder = (ImageAdHolder) d.holder;
 		//
-		if (holder.iconView != null) {
-			imageFetcher.attachImage(holder.ad.iconUrl, holder.iconView,
-					reshaper, 0, ifListener);
+		ImageView iv = holder.getView(holder.imageViewId);
+		if (iv != null) {
+			imageFetcher.attachImage(holder.ad.imageUrl, iv, reshaper, 0,
+					ifListener);
 		}
-		if (holder.bannerView != null) {
-			imageFetcher.attachImage(holder.ad.bannerUrl, holder.bannerView,
-					reshaper, 0, ifListener);
-		}
-		//
-		scheduleConfirmation(holder.bannerView, holder.ad);
 	}
 
-	private static void processImageAd(ImageAdHolder holder) {
-		if (holder.imageView != null) {
-			imageFetcher.attachImage(holder.ad.imageUrl, holder.imageView,
-					reshaper, 0, ifListener);
+	private static void processNativeAd(Data d) {
+		NativeAdHolder holder = (NativeAdHolder) d.holder;
+		//
+		TextView titleView = holder.getView(holder.titleViewId);
+		if (titleView != null) {
+			titleView.setText(holder.ad.title);
+		}
+		TextView subTitleView = holder.getView(holder.subTitleViewId);
+		if (subTitleView != null) {
+			subTitleView.setText(holder.ad.category);
+		}
+		RatingBar ratingView = holder.getView(holder.ratingViewId);
+		if (ratingView != null) {
+			ratingView.setRating(holder.ad.storeRating);
+		}
+		TextView descriptionView = holder.getView(holder.descriptionViewId);
+		if (descriptionView != null) {
+			descriptionView.setText(holder.ad.description);
+		}
+		TextView downloadView = holder.getView(holder.downloadViewId);
+		if (downloadView != null) {
+			downloadView.setText(holder.ad.ctaText);
 		}
 		//
-		scheduleConfirmation(holder.imageView, holder.ad);
+		ImageView iconView = holder.getView(holder.iconViewId);
+		if (iconView != null) {
+			imageFetcher.attachImage(holder.ad.iconUrl, iconView, reshaper, 0,
+					ifListener);
+		}
+		ImageView bannerView = holder.getView(holder.bannerViewId);
+		if (bannerView != null) {
+			imageFetcher.attachImage(holder.ad.bannerUrl, bannerView, reshaper,
+					0, ifListener);
+			//
+			TextureView textureView = holder.getView(holder.textureViewId);
+			if (textureView != null) {
+				setInvisible(true, textureView);
+				if (holder.ad.videoUrl != null) {
+					d.mp = new MediaPlayer();
+					try {
+						d.mp.setDataSource(holder.ad.videoUrl);
+						initVideo(textureView, bannerView, d);
+					} catch (Exception e) {
+						d.mp = null;
+						onError(e);
+					}
+				}
+			}
+		}
+	}
+
+	private static void initVideo(final TextureView tv, final ImageView iv,
+			final Data d) {
+		//
+		setSize(tv, 1, 1);
+		//
+		SurfaceTexture st = tv.getSurfaceTexture();
+		if (st != null) {
+			d.mp.setSurface(new Surface(st));
+		} else {
+			tv.setSurfaceTextureListener(new SurfaceTextureListenerAdapter() {
+
+				@Override
+				public void onSurfaceTextureAvailable(SurfaceTexture st,
+						int width, int height) {
+					tv.setSurfaceTextureListener(null);
+					d.mp.setSurface(new Surface(st));
+				}
+
+			});
+		}
+		//
+		d.mp.setOnPreparedListener(new OnPreparedListener() {
+
+			@Override
+			public void onPrepared(MediaPlayer mp) {
+				setSize(tv, iv.getWidth(), iv.getHeight());
+				//
+				d.preparing = false;
+				d.prepared = true;
+				mp.start();
+				setInvisible(true, iv);
+				setInvisible(false, tv);
+			}
+		});
+		d.mp.setOnCompletionListener(new OnCompletionListener() {
+
+			@Override
+			public void onCompletion(MediaPlayer mp) {
+				d.played = true;
+				setInvisible(false, iv);
+				// mp.seekTo(mp.getDuration());
+			}
+		});
+		tv.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (d.fullScreen) {
+					setSize(tv, iv.getWidth(), iv.getHeight());
+				} else {
+					Point p = ViewUtil.getFullSceeenSize(tv.getContext(), d.mp);
+					setSize(tv, p.x, p.y);
+				}
+				d.fullScreen = !d.fullScreen;
+			}
+		});
+	}
+
+	private static void setSize(TextureView tv, int w, int h) {
+		ViewGroup.LayoutParams layoutParams = tv.getLayoutParams();
+		layoutParams.width = w;
+		layoutParams.height = h;
+		tv.setLayoutParams(layoutParams);
 	}
 
 	//
 
-	private static void scheduleConfirmation(View view, Ad ad) {
-		boolean alreadyConfirmed = confirmedAdUrls.contains(ad
-				.getConfirmationUrl());
-		if (!alreadyConfirmed) {
-			map.put(view, new Data(ad));
-		}
-	}
-
-	//
-	private static void notifyListenerOnLoaded() {
+	private static void onLoaded() {
+		loaded = true;
 		if (listener != null) {
 			listener.onLoaded();
 		}
+		setExecRunning(true);
+
 	}
 
-	private static void notifyListenerOnError(Exception ex) {
+	private static void onError(Exception ex) {
 		if (listener != null) {
 			listener.onError(ex);
 		}
@@ -205,38 +316,31 @@ public class PubNative {
 
 	//
 
-	private static void setUp(Context ctx) {
-		if (!started) {
-			L.i("Start up.");
-			imageFetcher = new CachelessImageFetcher(ctx);
+	private static void setExecRunning(boolean running) {
+		if (running) {
+			setExecRunning(false);
 			exec = Executors.newSingleThreadScheduledExecutor();
 			exec.scheduleAtFixedRate(checkRunnable, CHECK_INTERVAL,
 					CHECK_INTERVAL, MILLISECONDS);
-			started = true;
+		} else {
+			if (exec != null) {
+				exec.shutdownNow();
+			}
 		}
 	}
 
-	private static void tearDown() {
-		if (started) {
-			L.i("Shut down.");
-			started = false;
-			exec.shutdown();
-			exec = null;
-			imageFetcher = null;
-			confirmedAdUrls.clear();
-		}
-	}
+	//
 
-	private static volatile boolean started;
-
+	private static Context ctx;
 	private static ImageFetcher imageFetcher;
 	private static ImageReshaper reshaper = null;
 	private static PubNativeListener listener;
 
 	private static ScheduledExecutorService exec;
-	private static final WeakHashMap<View, Data> map = new WeakHashMap<>();
+	private static final HashSet<Data> holders = new HashSet<>();
 
-	private static int counter = 0;
+	private static int counter;
+	private static boolean loaded;
 
 	//
 
@@ -244,39 +348,80 @@ public class PubNative {
 	private static final int SHOWN_TIME = 1000;
 	private static final int VISIBLE_PERCENT = 50;
 
-	private static void check() {
+	private static void checkConfirmation() {
 		long now = System.currentTimeMillis();
-		Iterator<View> it = map.keySet().iterator();
-		while (it.hasNext()) {
-			View v = it.next();
-			Data d = map.get(v);
-			boolean startedTracking = (d.firstAppeared > 0);
-			if (startedTracking && (now - d.firstAppeared) > SHOWN_TIME) {
-				confirmedAdUrls.add(d.ad.getConfirmationUrl());
-				new SendConfirmationTask(v.getContext(), confirmationListener,
-						d.ad).execute();
-				it.remove();
-			} else if (!startedTracking
-					&& getVisiblePercent(v) > VISIBLE_PERCENT) {
-				d.firstAppeared = now;
+		for (Data d : holders) {
+			if (!d.confirmed) {
+				View v = d.holder.getView();
+				if (v != null) {
+					boolean startedTracking = (d.firstAppeared > 0);
+					if (startedTracking && (now - d.firstAppeared) > SHOWN_TIME) {
+						d.confirmed = true;
+						new SendConfirmationTask(ctx, confirmationListener,
+								d.holder.ad).execute();
+					} else if (!startedTracking
+							&& getVisiblePercent(v) > VISIBLE_PERCENT) {
+						d.firstAppeared = now;
+					}
+				}
 			}
 		}
-		if (map.isEmpty()) {
-			tearDown();
-		}
-
 	}
 
-	private static final HashSet<String> confirmedAdUrls = new HashSet<>();
+	private static void checkVideo() {
+		for (Data d : holders) {
+			if (d.mp != null) {
+				View v = d.holder.getView();
+				if (v != null) {
+					boolean visibleEnough = getVisiblePercent(v) > VISIBLE_PERCENT;
+					if (!d.played) {
+						if (visibleEnough) {
+							if (!isAnyPlaying()) {
+								if (!d.preparing && !d.prepared) {
+									d.preparing = true;
+									d.mp.prepareAsync();
+								} else if (d.prepared && !d.mp.isPlaying()) {
+									d.mp.start();
+								}
+							}
+						} else if (d.mp.isPlaying()) {
+							d.mp.pause();
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private static boolean isAnyPlaying() {
+		for (Data d : holders) {
+			if (d.preparing || d.isPlaying()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private static void cleanUp() {
+		Iterator<Data> it = holders.iterator();
+		Data d;
+		while ((d = it.next()) != null) {
+			if (d.confirmed && (d.mp == null || d.played)) {
+				it.remove();
+			}
+		}
+	}
 
 	private static final Runnable checkRunnable = new Runnable() {
 
 		@Override
 		public void run() {
 			try {
-				check();
+				checkConfirmation();
+				checkVideo();
+				cleanUp();
 			} catch (Exception e) {
-				notifyListenerOnError(e);
+				onError(e);
 			}
 		}
 	};
@@ -302,7 +447,7 @@ public class PubNative {
 		}
 
 		@Override
-		public void onFetchCompleted(ImageView imageView, String imgUrl,
+		public void onFetchCompleted(final ImageView imageView, String imgUrl,
 				Bitmap bm) {
 			countDown();
 		}
@@ -311,7 +456,7 @@ public class PubNative {
 		public void onFetchFailed(ImageView imageView, String imgUrl,
 				Exception e) {
 			countDown();
-			notifyListenerOnError(e);
+			onError(e);
 		}
 
 		@Override
@@ -323,7 +468,7 @@ public class PubNative {
 		private void countDown() {
 			counter--;
 			if (counter == 0) {
-				notifyListenerOnLoaded();
+				onLoaded();
 			}
 		}
 
@@ -331,11 +476,33 @@ public class PubNative {
 
 	private static class Data {
 
-		final Ad ad;
-		long firstAppeared = -1;
+		final AdHolder<?> holder;
 
-		Data(Ad ad) {
-			this.ad = ad;
+		long firstAppeared = -1;
+		boolean confirmed;
+		//
+		MediaPlayer mp;
+		boolean preparing;
+		boolean prepared;
+		boolean fullScreen;
+		boolean played;
+
+		Data(AdHolder<?> holder) {
+			this.holder = holder;
+		}
+
+		boolean isPlaying() {
+			return (mp != null && mp.isPlaying());
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			return holder.equals(o);
+		}
+
+		@Override
+		public int hashCode() {
+			return holder.hashCode();
 		}
 	}
 

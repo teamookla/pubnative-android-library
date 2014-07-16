@@ -89,6 +89,18 @@ public class RenderedResponseActivity extends AbstractResponseActivity
 	}
 
 	@Override
+	protected void onPause() {
+		super.onPause();
+		PubNative.onPause();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		PubNative.onResume();
+	}
+
+	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		Ad ad = adapter.getItem(position).ad;

@@ -40,7 +40,7 @@ public abstract class AbstractAdHolderAdapter<T extends AdHolder<?>> extends
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		return getItem(position).view;
+		return getItem(position).getView();
 	}
 
 }

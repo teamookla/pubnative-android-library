@@ -23,7 +23,7 @@ package net.pubnative.sdk;
 
 public interface PubNativeContract {
 
-	String BASE_URL = "http://api.pubnative.net/api/partner/v2/promotions/";
+	String BASE_URL = "http://api-staging.applift.com/api/partner/v2/promotions/";
 
 	String NATIVE = "native";
 	String IMAGE = "image";
@@ -95,6 +95,8 @@ public interface PubNativeContract {
 
 			String ICON_URL = "icon_url";
 			String BANNER_URL = "banner_url";
+
+			String VIDEO_URL = "video_url";
 
 			String CTA_TEXT = "cta_text";
 

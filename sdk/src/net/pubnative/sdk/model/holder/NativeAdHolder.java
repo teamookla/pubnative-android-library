@@ -21,22 +21,32 @@
  */
 package net.pubnative.sdk.model.holder;
 
+import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.response.NativeAd;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
+import android.view.View;
 
 public class NativeAdHolder extends AdHolder<NativeAd> {
 
-	public ImageView iconView;
-	public ImageView bannerView;
+	public NativeAdHolder(View view) {
+		super(view);
+	}
 
-	public RatingBar ratingView;
+	public int iconViewId;
+	public int bannerViewId;
 
-	public TextView titleView;
-	public TextView subtitleView;
-	public TextView descriptionView;
+	public int textureViewId;
 
-	public TextView downloadView;
+	public int ratingViewId;
+
+	public int titleViewId;
+	public int subTitleViewId;
+	public int descriptionViewId;
+
+	public int downloadViewId;
+
+	@Override
+	public AdFormat getFormat() {
+		return AdFormat.NATIVE;
+	}
 
 }

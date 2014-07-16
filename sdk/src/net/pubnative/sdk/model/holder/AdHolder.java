@@ -21,13 +21,46 @@
  */
 package net.pubnative.sdk.model.holder;
 
+import java.lang.ref.WeakReference;
+
+import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.response.Ad;
+
+import org.droidparts.util.L;
+
 import android.view.View;
 
 public abstract class AdHolder<T extends Ad> {
 
 	public T ad;
 
-	public View view;
+	private WeakReference<View> viewRef;
+
+	private View view;
+
+	public AdHolder(View view) {
+		// this.viewRef = new WeakReference<View>(view);
+		this.view = view;
+	}
+
+	public View getView() {
+		return view;
+		// return viewRef.get();
+	}
+
+	@SuppressWarnings("unchecked")
+	public <V extends View> V getView(int id) {
+		View v = getView();
+		if (v != null) {
+			try {
+				return (V) v.findViewById(id);
+			} catch (ClassCastException e) {
+				L.e(e);
+			}
+		}
+		return null;
+	}
+
+	public abstract AdFormat getFormat();
 
 }

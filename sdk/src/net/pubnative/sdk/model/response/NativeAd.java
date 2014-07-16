@@ -25,7 +25,8 @@ import net.pubnative.sdk.PubNativeContract;
 
 import org.droidparts.annotation.json.Key;
 
-public class NativeAd extends Ad implements PubNativeContract.Response.NativeFormat {
+public class NativeAd extends Ad implements
+		PubNativeContract.Response.NativeFormat {
 	private static final long serialVersionUID = 1L;
 
 	@Key(name = TITLE)
@@ -39,6 +40,9 @@ public class NativeAd extends Ad implements PubNativeContract.Response.NativeFor
 
 	@Key(name = BANNER_URL)
 	public String bannerUrl;
+
+	@Key(name = VIDEO_URL)
+	public String videoUrl;
 
 	@Key(name = CTA_TEXT)
 	public String ctaText;

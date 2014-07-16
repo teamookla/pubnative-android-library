@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="pubnative-demo-test">
+    
+    <property environment="env" />
+    <property name="sdk.dir" value="${env.ANDROID_HOME}"/>
+    
+    <loadproperties srcFile="project.properties" />
+    <loadproperties srcFile="ant.properties" />
+
+    <import file="${sdk.dir}/tools/ant/build.xml" />
+
+</project>

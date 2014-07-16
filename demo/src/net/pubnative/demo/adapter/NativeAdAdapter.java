@@ -21,11 +21,11 @@
  */
 package net.pubnative.demo.adapter;
 
-import static org.droidparts.util.ui.ViewUtils.findViewById;
 import net.pubnative.demo.R;
 import net.pubnative.sdk.model.holder.NativeAdHolder;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 
 public class NativeAdAdapter extends AbstractAdHolderAdapter<NativeAdHolder> {
 
@@ -35,16 +35,17 @@ public class NativeAdAdapter extends AbstractAdHolderAdapter<NativeAdHolder> {
 
 	@Override
 	public NativeAdHolder makeAndAddHolder() {
-		NativeAdHolder h = new NativeAdHolder();
-		h.view = LayoutInflater.from(getContext()).inflate(
+		View view = LayoutInflater.from(getContext()).inflate(
 				R.layout.view_response_native_format, null);
-		h.iconView = findViewById(h.view, R.id.view_icon);
-		h.titleView = findViewById(h.view, R.id.view_title);
-		h.subtitleView = findViewById(h.view, R.id.view_subtitle);
-		h.ratingView = findViewById(h.view, R.id.view_rating);
-		h.descriptionView = findViewById(h.view, R.id.view_description);
-		h.bannerView = findViewById(h.view, R.id.view_banner);
-		h.downloadView = findViewById(h.view, R.id.view_download);
+		NativeAdHolder h = new NativeAdHolder(view);
+		h.iconViewId = R.id.view_icon;
+		h.titleViewId = R.id.view_title;
+		h.subTitleViewId = R.id.view_subtitle;
+		h.ratingViewId = R.id.view_rating;
+		h.descriptionViewId = R.id.view_description;
+		h.bannerViewId = R.id.view_banner;
+		h.textureViewId = R.id.view_video;
+		h.downloadViewId = R.id.view_download;
 		add(h);
 		return h;
 	}

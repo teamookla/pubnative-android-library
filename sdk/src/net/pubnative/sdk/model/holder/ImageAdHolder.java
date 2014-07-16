@@ -21,11 +21,21 @@
  */
 package net.pubnative.sdk.model.holder;
 
+import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.response.ImageAd;
-import android.widget.ImageView;
+import android.view.View;
 
 public class ImageAdHolder extends AdHolder<ImageAd> {
 
-	public ImageView imageView;
+	public ImageAdHolder(View view) {
+		super(view);
+	}
+
+	public int imageViewId;
+
+	@Override
+	public AdFormat getFormat() {
+		return AdFormat.IMAGE;
+	}
 
 }

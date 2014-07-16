@@ -23,6 +23,7 @@ package net.pubnative.sdk.task;
 
 import java.util.ArrayList;
 
+import net.pubnative.sdk.PubNativeContract;
 import net.pubnative.sdk.PubNativeContract.Response;
 import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.request.AdRequest;
@@ -57,8 +58,17 @@ public class GetAdsTask<T extends Ad> extends SimpleAsyncTask<ArrayList<T>> {
 		JSONObject obj = new GetAdsJSONTask(getContext(), adRequest, null)
 				.onExecute();
 		JSONArray arr = obj.getJSONArray(Response.ADS);
+		// XXX hack
+		for (int i = 0; i < arr.length(); i++) {
+			JSONObject o = arr.getJSONObject(i);
+			Object videoUrl = (i % 2 == 0) ? TEST_VIDEO : JSONObject.NULL;
+			o.put(PubNativeContract.Response.NativeFormat.VIDEO_URL, videoUrl);
+		}
+		//
 		ArrayList<? extends Ad> list = serializer.deserialize(arr);
 		return (ArrayList<T>) list;
 	}
+
+	private static final String TEST_VIDEO = "http://cdn.applift.com/games/videos/2723/en.mp4";
 
 }

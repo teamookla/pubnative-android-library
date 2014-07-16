@@ -21,11 +21,11 @@
  */
 package net.pubnative.demo.adapter;
 
-import static org.droidparts.util.ui.ViewUtils.findViewById;
 import net.pubnative.demo.R;
 import net.pubnative.sdk.model.holder.ImageAdHolder;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 
 public class ImageAdAdapter extends AbstractAdHolderAdapter<ImageAdHolder> {
 
@@ -35,10 +35,10 @@ public class ImageAdAdapter extends AbstractAdHolderAdapter<ImageAdHolder> {
 
 	@Override
 	public ImageAdHolder makeAndAddHolder() {
-		ImageAdHolder h = new ImageAdHolder();
-		h.view = LayoutInflater.from(getContext()).inflate(
+		View view = LayoutInflater.from(getContext()).inflate(
 				R.layout.view_response_image_format, null);
-		h.imageView = findViewById(h.view, R.id.view_img);
+		ImageAdHolder h = new ImageAdHolder(view);
+		h.imageViewId = R.id.view_img;
 		add(h);
 		return h;
 	}

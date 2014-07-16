@@ -21,27 +21,42 @@
  */
 package net.pubnative.sdk.util;
 
+import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
+import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.ImageView;
 
 public class ViewUtil {
 
 	public static int getVisiblePercent(View v) {
-		if (v.getVisibility() != View.VISIBLE) {
-			return -1;
-		} else {
+		if (v.isShown()) {
 			Rect r = new Rect();
 			v.getGlobalVisibleRect(r);
 			double sVisible = r.width() * r.height();
 			double sTotal = v.getWidth() * v.getHeight();
 			return (int) (100 * sVisible / sTotal);
+		} else {
+			return -1;
 		}
 	}
 
-	public static Point getSizeHint(ImageView v) {
-		return null;
+	public static Point getFullSceeenSize(Context ctx, MediaPlayer mediaPlayer) {
+		DisplayMetrics dm = ctx.getResources().getDisplayMetrics();
+
+		int videoW = mediaPlayer.getVideoWidth();
+		int videoH = mediaPlayer.getVideoHeight();
+
+		float screenW = dm.widthPixels;
+		float screenH = dm.heightPixels;
+
+		float scale = Math.min(screenW / videoW, screenH / videoH);
+
+		Point p = new Point();
+		p.x = (int) (videoW * scale);
+		p.y = (int) (videoH * scale);
+		return p;
 	}
 
 }
