@@ -38,17 +38,10 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.provider.Settings.Secure;
 import android.telephony.TelephonyManager;
 import android.webkit.WebView;
 
 public class IdUtil {
-
-	public static String getAndroidId(Context ctx) {
-		String androidId = Secure.getString(ctx.getContentResolver(),
-				Secure.ANDROID_ID);
-		return (androidId != null) ? androidId : "";
-	}
 
 	public static String getIMEI(Context ctx) {
 		String imei = null;

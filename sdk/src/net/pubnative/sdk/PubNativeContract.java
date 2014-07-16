@@ -65,9 +65,6 @@ public interface PubNativeContract {
 		String ANDROID_IMEI = "android_imei";
 		String ANDROID_IMEI_SHA1 = "android_imei_sha1";
 		String ANDROID_IMEI_MD5 = "android_imei_md5";
-		String ANDROID_ID = "android_id";
-		String ANDROID_ID_SHA1 = "android_id_sha1";
-		String ANDROID_ID_MD5 = "android_id_md5";
 		String ANDROID_ADVERTISER_ID = "android_advertiser_id";
 		String ANDROID_ADVERTISER_ID_SHA1 = "android_advertiser_id_sha1";
 		String ANDROID_ADVERTISER_ID_MD5 = "android_advertiser_id_md5";

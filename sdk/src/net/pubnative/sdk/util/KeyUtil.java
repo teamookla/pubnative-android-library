@@ -68,7 +68,6 @@ public class KeyUtil {
 	public static String getDefaultVal(Context ctx, String key) {
 		String mac = IdUtil.getMacAddress(ctx);
 		String imei = IdUtil.getIMEI(ctx);
-		String androidId = IdUtil.getAndroidId(ctx);
 		String advId = IdUtil.getAdvertisingId(ctx);
 		Location loc = IdUtil.getLastLocation(ctx);
 		switch (key) {
@@ -109,12 +108,6 @@ public class KeyUtil {
 			return sha1(imei);
 		case UserIdentifier.ANDROID_IMEI_MD5:
 			return md5(imei);
-		case UserIdentifier.ANDROID_ID:
-			return androidId;
-		case UserIdentifier.ANDROID_ID_SHA1:
-			return sha1(androidId);
-		case UserIdentifier.ANDROID_ID_MD5:
-			return md5(androidId);
 		case UserIdentifier.ANDROID_ADVERTISER_ID:
 			return advId;
 		case UserIdentifier.ANDROID_ADVERTISER_ID_SHA1:
