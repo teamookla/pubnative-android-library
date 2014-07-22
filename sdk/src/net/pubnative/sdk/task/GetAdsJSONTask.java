@@ -44,7 +44,9 @@ public class GetAdsJSONTask extends SimpleAsyncTask<JSONObject> {
 
 	@Override
 	protected JSONObject onExecute() throws Exception {
-		return restClient.getJSONObject(adRequest.buildUri().toString());
+		JSONObject resp = restClient.getJSONObject(adRequest.buildUri()
+				.toString());
+		return resp;
 	}
 
 }

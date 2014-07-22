@@ -108,10 +108,16 @@ public class PubNative {
 			public void onAsyncTaskSuccess(ArrayList<Ad> result) {
 				Context ctx = holders[0].view.getContext();
 				setUp(ctx);
-				for (int i = 0; i < result.size(); i++) {
-					AdHolder<T> holder = (AdHolder<T>) holders[i];
-					holder.ad = (T) result.get(i);
-					processAd(holder);
+				if (result.isEmpty()) {
+					if (listener != null) {
+						listener.onLoaded();
+					}
+				} else {
+					for (int i = 0; i < result.size(); i++) {
+						AdHolder<T> holder = (AdHolder<T>) holders[i];
+						holder.ad = (T) result.get(i);
+						processAd(holder);
+					}
 				}
 			}
 
