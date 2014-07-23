@@ -29,6 +29,8 @@ import org.droidparts.annotation.inject.InjectBundleExtra;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -61,6 +63,14 @@ public abstract class AbstractResponseActivity extends Activity {
 		dismissLoading(null);
 		loadingDialog = ProgressDialog.show(this, null,
 				getString(R.string.loading___), true);
+		loadingDialog.setCancelable(true);
+		loadingDialog.setOnCancelListener(new OnCancelListener() {
+
+			@Override
+			public void onCancel(DialogInterface dialog) {
+				finish();
+			}
+		});
 	}
 
 	protected final void dismissLoading(Exception ex) {
