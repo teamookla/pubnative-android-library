@@ -74,9 +74,7 @@ public class PubNative {
 			new GetAdsTask<>(ctx, req, makeResultListener(listener, holders))
 					.execute();
 		} else {
-			if (listener != null) {
-				listener.onError(new IllegalArgumentException("0 holders."));
-			}
+			notifyListenerOnError(new IllegalArgumentException("0 holders."));
 		}
 	}
 
@@ -109,9 +107,7 @@ public class PubNative {
 				Context ctx = holders[0].view.getContext();
 				setUp(ctx);
 				if (result.isEmpty()) {
-					if (listener != null) {
-						listener.onLoaded();
-					}
+					notifyListenerOnLoaded();
 				} else {
 					for (int i = 0; i < result.size(); i++) {
 						AdHolder<T> holder = (AdHolder<T>) holders[i];
@@ -123,9 +119,7 @@ public class PubNative {
 
 			@Override
 			public void onAsyncTaskFailure(Exception ex) {
-				if (listener != null) {
-					listener.onError(ex);
-				}
+				notifyListenerOnError(ex);
 			}
 
 		};
@@ -187,6 +181,19 @@ public class PubNative {
 				.getConfirmationUrl());
 		if (!alreadyConfirmed) {
 			map.put(view, new Data(ad));
+		}
+	}
+
+	//
+	private static void notifyListenerOnLoaded() {
+		if (listener != null) {
+			listener.onLoaded();
+		}
+	}
+
+	private static void notifyListenerOnError(Exception ex) {
+		if (listener != null) {
+			listener.onError(ex);
 		}
 	}
 
@@ -264,9 +271,7 @@ public class PubNative {
 			try {
 				check();
 			} catch (Exception e) {
-				if (listener != null) {
-					listener.onError(e);
-				}
+				notifyListenerOnError(e);
 			}
 		}
 	};
@@ -296,18 +301,14 @@ public class PubNative {
 				Bitmap bm) {
 			counter--;
 			if (counter == 0) {
-				if (listener != null) {
-					listener.onLoaded();
-				}
+				notifyListenerOnLoaded();
 			}
 		}
 
 		@Override
 		public void onFetchFailed(ImageView imageView, String imgUrl,
 				Exception e) {
-			if (listener != null) {
-				listener.onError(e);
-			}
+			notifyListenerOnError(e);
 		}
 
 		@Override
