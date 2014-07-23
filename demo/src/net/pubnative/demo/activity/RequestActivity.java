@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.pubnative.demo.PrefsManager;
 import net.pubnative.demo.R;
 import net.pubnative.sdk.PubNativeContract;
 import net.pubnative.sdk.model.AdFormat;
@@ -68,6 +69,8 @@ public class RequestActivity extends Activity implements OnClickListener,
 	@InjectView(id = R.id.btn_rendered_response, click = true)
 	private Button renderedResponseBtn;
 
+	private PrefsManager prefsManager;
+
 	@Override
 	public void onPreInject() {
 		setContentView(R.layout.activity_request);
@@ -77,9 +80,22 @@ public class RequestActivity extends Activity implements OnClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setTitle(getTitle() + " - " + getString(R.string.request));
+		prefsManager = new PrefsManager(this);
 		//
 		addRows();
 		fillInDefaults();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		prefsManager.setParams(getParams());
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setParams(prefsManager.getParams());
 	}
 
 	@Override
@@ -118,20 +134,16 @@ public class RequestActivity extends Activity implements OnClickListener,
 		req.setAdCount(4);
 		req.setIconSize(100, 100);
 		req.setBannerSize(480, 320);
-		for (Holder row : getRowHolders()) {
-			String val = req.getParam(row.key);
-			if (val != null) {
-				row.valView.setText(val);
-			}
-		}
-
+		req.getParams().put(RequestInfo.APP_TOKEN, APP_TOKEN);
+		setParams(req.getParams());
 	}
 
 	private AdRequest getAdRequest() {
 		AdFormat format = nativeResponseRB.isChecked() ? AdFormat.NATIVE
 				: AdFormat.IMAGE;
-		AdRequest req = new AdRequest(APP_TOKEN, format);
-		req.getParams().putAll(getParams());
+		Map<String, String> params = getParams();
+		AdRequest req = new AdRequest(params.get(RequestInfo.APP_TOKEN), format);
+		req.getParams().putAll(params);
 		return req;
 	}
 
@@ -144,6 +156,15 @@ public class RequestActivity extends Activity implements OnClickListener,
 			}
 		}
 		return map;
+	}
+
+	private void setParams(Map<String, String> params) {
+		for (Holder row : getRowHolders()) {
+			String val = params.get(row.key);
+			if (val != null) {
+				row.valView.setText(val);
+			}
+		}
 	}
 
 	private ArrayList<Holder> getRowHolders() {
