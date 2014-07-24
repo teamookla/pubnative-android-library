@@ -123,7 +123,7 @@ public class IdUtil {
 		return country;
 	}
 
-	public static String getIpAddress(Context ctx) {
+	public static String getIpAddress(Context ctx, boolean privateOk) {
 		try {
 			Enumeration<NetworkInterface> en = NetworkInterface
 					.getNetworkInterfaces();
@@ -132,9 +132,11 @@ public class IdUtil {
 						.getInetAddresses();
 				while (ni.hasMoreElements()) {
 					InetAddress addr = ni.nextElement();
-					if (!addr.isLoopbackAddress()
-							&& addr instanceof Inet4Address) {
-						return addr.getHostAddress();
+					if ((addr instanceof Inet4Address)
+							&& !addr.isLoopbackAddress()) {
+						if (privateOk || !addr.isSiteLocalAddress()) {
+							return addr.getHostAddress();
+						}
 					}
 				}
 			}

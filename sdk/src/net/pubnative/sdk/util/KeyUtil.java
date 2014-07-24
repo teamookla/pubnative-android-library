@@ -82,7 +82,7 @@ public class KeyUtil {
 		case RequestInfo.DEVICE_MODEL:
 			return Build.MODEL;
 		case RequestInfo.IP:
-			return IdUtil.getIpAddress(ctx);
+			return IdUtil.getIpAddress(ctx, false);
 		case RequestInfo.COUNTRY:
 			return IdUtil.getCountry(ctx);
 		case RequestInfo.LOCALE:
