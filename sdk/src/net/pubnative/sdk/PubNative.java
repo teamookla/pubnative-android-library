@@ -109,6 +109,7 @@ public class PubNative {
 				if (result.isEmpty()) {
 					notifyListenerOnLoaded();
 				} else {
+					counter = 0;
 					for (int i = 0; i < result.size(); i++) {
 						AdHolder<T> holder = (AdHolder<T>) holders[i];
 						holder.ad = (T) result.get(i);
@@ -218,7 +219,6 @@ public class PubNative {
 			exec = null;
 			imageFetcher = null;
 			confirmedAdUrls.clear();
-			counter = 0;
 		}
 	}
 
@@ -299,15 +299,13 @@ public class PubNative {
 		@Override
 		public void onFetchCompleted(ImageView imageView, String imgUrl,
 				Bitmap bm) {
-			counter--;
-			if (counter == 0) {
-				notifyListenerOnLoaded();
-			}
+			countDown();
 		}
 
 		@Override
 		public void onFetchFailed(ImageView imageView, String imgUrl,
 				Exception e) {
+			countDown();
 			notifyListenerOnError(e);
 		}
 
@@ -315,6 +313,13 @@ public class PubNative {
 		public void onFetchProgressChanged(ImageView imageView, String imgUrl,
 				int kBTotal, int kBReceived) {
 			// pass
+		}
+
+		private void countDown() {
+			counter--;
+			if (counter == 0) {
+				notifyListenerOnLoaded();
+			}
 		}
 
 	};
