@@ -21,6 +21,8 @@
  */
 package net.pubnative.demo.activity;
 
+import static org.droidparts.util.Strings.isNotEmpty;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +37,6 @@ import net.pubnative.sdk.util.KeyUtil;
 import org.droidparts.activity.legacy.Activity;
 import org.droidparts.adapter.holder.ViewHolder;
 import org.droidparts.annotation.inject.InjectView;
-import org.droidparts.util.Strings;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -89,7 +90,7 @@ public class RequestActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onPause() {
 		super.onPause();
-		prefsManager.setParams(getParams());
+		prefsManager.setParams(getParams(true));
 	}
 
 	@Override
@@ -141,17 +142,17 @@ public class RequestActivity extends Activity implements OnClickListener,
 	private AdRequest getAdRequest() {
 		AdFormat format = nativeResponseRB.isChecked() ? AdFormat.NATIVE
 				: AdFormat.IMAGE;
-		Map<String, String> params = getParams();
+		Map<String, String> params = getParams(false);
 		AdRequest req = new AdRequest(params.get(RequestInfo.APP_TOKEN), format);
 		req.getParams().putAll(params);
 		return req;
 	}
 
-	private Map<String, String> getParams() {
+	private Map<String, String> getParams(boolean includeEmpty) {
 		HashMap<String, String> map = new HashMap<>();
 		for (Holder h : getRowHolders()) {
 			String val = h.valView.getText().toString();
-			if (Strings.isNotEmpty(val)) {
+			if (includeEmpty || isNotEmpty(val)) {
 				map.put(h.key, val);
 			}
 		}
