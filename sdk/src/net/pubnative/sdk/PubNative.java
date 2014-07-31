@@ -86,13 +86,18 @@ public class PubNative {
 		PubNative.reshaper = reshaper;
 	}
 
-	public static void showInPlayStore(Activity act, Ad ad, boolean background) {
-		WebRedirector r = new WebRedirector(act, ad.clickUrl);
-		if (background) {
-			r.doBackgroundRedirect();
-		} else {
-			r.doBrowserRedirect();
-		}
+	public static void showInPlayStoreViaBrowser(Activity act, Ad ad) {
+		new WebRedirector(act, ad.getPackageName(), ad.clickUrl)
+				.doBrowserRedirect();
+	}
+
+	public static void showInPlayStoreViaDialog(Activity act, Ad ad) {
+		showInPlayStoreViaDialog(act, ad, 3000);
+	}
+
+	public static void showInPlayStoreViaDialog(Activity act, Ad ad, int timeout) {
+		new WebRedirector(act, ad.getPackageName(), ad.clickUrl)
+				.doBackgroundRedirect(timeout);
 	}
 
 	//

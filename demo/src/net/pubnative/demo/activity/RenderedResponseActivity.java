@@ -93,7 +93,11 @@ public class RenderedResponseActivity extends AbstractResponseActivity
 			long id) {
 		Ad ad = adapter.getItem(position).ad;
 		boolean background = backgroundRedirectRB.isChecked();
-		PubNative.showInPlayStore(this, ad, background);
+		if (background) {
+			PubNative.showInPlayStoreViaDialog(this, ad);
+		} else {
+			PubNative.showInPlayStoreViaBrowser(this, ad);
+		}
 	}
 
 	private final PubNativeListener listener = new PubNativeListener() {

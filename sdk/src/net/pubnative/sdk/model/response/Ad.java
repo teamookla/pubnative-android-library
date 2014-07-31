@@ -39,6 +39,16 @@ public abstract class Ad extends Model implements
 	@Key(name = BEACONS)
 	private Beacon[] beacons;
 
+	public String getPackageName() {
+		if (this instanceof NativeAd) {
+			return ((NativeAd) this).storeId;
+		} else if (this instanceof ImageAd) {
+			return ((ImageAd) this).storeId;
+		} else {
+			return null;
+		}
+	}
+
 	public String getConfirmationUrl() {
 		return (beacons.length == 1) ? beacons[0].url : null;
 	}

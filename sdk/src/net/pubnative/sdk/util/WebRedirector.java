@@ -22,6 +22,7 @@
 package net.pubnative.sdk.util;
 
 import static android.content.Intent.ACTION_VIEW;
+import static org.droidparts.util.Strings.isNotEmpty;
 import net.pubnative.sdk.R;
 
 import org.droidparts.util.L;
@@ -47,14 +48,17 @@ public class WebRedirector implements OnCancelListener {
 	private WebView webView;
 
 	private final Activity act;
+	private final String pkgName;
 	private final String link;
 
+	private Watchdog doggy;
 	private Dialog loadingDialog;
 
 	private boolean cancelled = false;
 
-	public WebRedirector(Activity act, String link) {
+	public WebRedirector(Activity act, String pkgName, String link) {
 		this.act = act;
+		this.pkgName = pkgName;
 		this.link = link;
 	}
 
@@ -63,7 +67,14 @@ public class WebRedirector implements OnCancelListener {
 		act.startActivity(intent);
 	}
 
-	public void doBackgroundRedirect() {
+	public void doBackgroundRedirect(int timeout) {
+		if (doggy != null) {
+			doggy.stop();
+		}
+		if (isNotEmpty(pkgName)) {
+			doggy = new Watchdog(timeout, directRedirect);
+			doggy.start();
+		}
 		try {
 			loadingDialog = ProgressDialog.show(act, null,
 					act.getString(R.string.loading___), true);
@@ -75,6 +86,9 @@ public class WebRedirector implements OnCancelListener {
 
 	public void cancel() {
 		cancelled = true;
+		if (doggy != null) {
+			doggy.stop();
+		}
 		try {
 			webView.stopLoading();
 			loadingDialog.dismiss();
@@ -139,5 +153,14 @@ public class WebRedirector implements OnCancelListener {
 		}
 		return Uri.parse(url);
 	}
+
+	private final Runnable directRedirect = new Runnable() {
+
+		@Override
+		public void run() {
+			L.w("Redirect timeout.");
+			openInPlayStore(MARKET_PREFIX + pkgName);
+		}
+	};
 
 }

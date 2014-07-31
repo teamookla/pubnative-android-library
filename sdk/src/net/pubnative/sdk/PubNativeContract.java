@@ -84,6 +84,8 @@ public interface PubNativeContract {
 			//
 			String BEACONS = "beacons";
 			String URL = "url";
+
+			String STORE_ID = "store_id";
 		}
 
 		interface NativeFormat extends Format {
@@ -111,7 +113,6 @@ public interface PubNativeContract {
 			String CATEGORY = "category";
 			String SUB_CATEGORY = "sub_category";
 			String STORE_URL = "store_url";
-			String STORE_ID = "store_id";
 		}
 
 		interface ImageFormat extends Format {

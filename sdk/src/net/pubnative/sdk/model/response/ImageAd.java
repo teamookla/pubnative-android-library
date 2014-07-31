@@ -25,11 +25,15 @@ import net.pubnative.sdk.PubNativeContract;
 
 import org.droidparts.annotation.json.Key;
 
-public class ImageAd extends Ad implements PubNativeContract.Response.ImageFormat {
+public class ImageAd extends Ad implements
+		PubNativeContract.Response.ImageFormat {
 	private static final long serialVersionUID = 1L;
 
 	@Key(name = IMAGE_URL)
 	public String imageUrl;
+
+	@Key(name = STORE_ID, optional = true)
+	public String storeId;
 
 	@Key(name = WIDTH)
 	public int width;
