@@ -21,8 +21,6 @@
  */
 package net.pubnative.sdk.model.holder;
 
-import java.lang.ref.WeakReference;
-
 import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.response.Ad;
 
@@ -34,7 +32,7 @@ public abstract class AdHolder<T extends Ad> {
 
 	public T ad;
 
-	private WeakReference<View> viewRef;
+	// private WeakReference<View> viewRef;
 
 	private View view;
 
