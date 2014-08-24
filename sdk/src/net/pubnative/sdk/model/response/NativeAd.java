@@ -23,59 +23,59 @@ package net.pubnative.sdk.model.response;
 
 import net.pubnative.sdk.PubNativeContract;
 
-import org.droidparts.annotation.json.Key;
+import org.droidparts.annotation.serialize.JSON;
 
 public class NativeAd extends Ad implements
 		PubNativeContract.Response.NativeFormat {
 	private static final long serialVersionUID = 1L;
 
-	@Key(name = TITLE)
+	@JSON(key = TITLE)
 	public String title;
 
-	@Key(name = DESCRIPTION)
+	@JSON(key = DESCRIPTION)
 	public String description;
 
-	@Key(name = ICON_URL)
+	@JSON(key = ICON_URL)
 	public String iconUrl;
 
-	@Key(name = BANNER_URL)
+	@JSON(key = BANNER_URL)
 	public String bannerUrl;
 
-	@Key(name = VIDEO_URL)
+	@JSON(key = VIDEO_URL)
 	public String videoUrl;
 
-	@Key(name = CTA_TEXT)
+	@JSON(key = CTA_TEXT)
 	public String ctaText;
 
-	@Key(name = APP_DETAILS + Key.SUB + NAME)
+	@JSON(key = APP_DETAILS + JSON.SUB + NAME)
 	public String name;
-	@Key(name = APP_DETAILS + Key.SUB + PLATFORM)
+	@JSON(key = APP_DETAILS + JSON.SUB + PLATFORM)
 	public String platform;
-	@Key(name = APP_DETAILS + Key.SUB + REVIEW)
+	@JSON(key = APP_DETAILS + JSON.SUB + REVIEW)
 	public String review;
-	@Key(name = APP_DETAILS + Key.SUB + REVIEW_PROS)
+	@JSON(key = APP_DETAILS + JSON.SUB + REVIEW_PROS)
 	public String[] reviewPros;
-	@Key(name = APP_DETAILS + Key.SUB + REVIEW_CONS)
+	@JSON(key = APP_DETAILS + JSON.SUB + REVIEW_CONS)
 	public String[] reviewCons;
-	@Key(name = APP_DETAILS + Key.SUB + PUBLISHER)
+	@JSON(key = APP_DETAILS + JSON.SUB + PUBLISHER)
 	public String publisher;
-	@Key(name = APP_DETAILS + Key.SUB + DEVELOPER)
+	@JSON(key = APP_DETAILS + JSON.SUB + DEVELOPER)
 	public String developer;
-	@Key(name = APP_DETAILS + Key.SUB + VERSION)
+	@JSON(key = APP_DETAILS + JSON.SUB + VERSION)
 	public String version;
-	@Key(name = APP_DETAILS + Key.SUB + SIZE)
+	@JSON(key = APP_DETAILS + JSON.SUB + SIZE)
 	public String size;
-	@Key(name = APP_DETAILS + Key.SUB + AGE_RATING)
+	@JSON(key = APP_DETAILS + JSON.SUB + AGE_RATING)
 	public String ageRating;
-	@Key(name = APP_DETAILS + Key.SUB + STORE_RATING)
+	@JSON(key = APP_DETAILS + JSON.SUB + STORE_RATING)
 	public float storeRating;
-	@Key(name = APP_DETAILS + Key.SUB + CATEGORY)
+	@JSON(key = APP_DETAILS + JSON.SUB + CATEGORY)
 	public String category;
-	@Key(name = APP_DETAILS + Key.SUB + SUB_CATEGORY)
+	@JSON(key = APP_DETAILS + JSON.SUB + SUB_CATEGORY)
 	public String subCategory;
-	@Key(name = APP_DETAILS + Key.SUB + STORE_URL)
+	@JSON(key = APP_DETAILS + JSON.SUB + STORE_URL)
 	public String storeUrl;
-	@Key(name = APP_DETAILS + Key.SUB + STORE_ID)
+	@JSON(key = APP_DETAILS + JSON.SUB + STORE_ID)
 	public String storeId;
 
 }

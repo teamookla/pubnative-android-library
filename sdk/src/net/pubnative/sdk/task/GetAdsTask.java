@@ -33,7 +33,7 @@ import net.pubnative.sdk.model.response.NativeAd;
 
 import org.droidparts.concurrent.task.AsyncTaskResultListener;
 import org.droidparts.concurrent.task.SimpleAsyncTask;
-import org.droidparts.persist.json.JSONSerializer;
+import org.droidparts.persist.serializer.JSONSerializer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -65,7 +65,7 @@ public class GetAdsTask<T extends Ad> extends SimpleAsyncTask<ArrayList<T>> {
 			o.put(PubNativeContract.Response.NativeFormat.VIDEO_URL, videoUrl);
 		}
 		//
-		ArrayList<? extends Ad> list = serializer.deserialize(arr);
+		ArrayList<? extends Ad> list = serializer.deserializeAll(arr);
 		return (ArrayList<T>) list;
 	}
 

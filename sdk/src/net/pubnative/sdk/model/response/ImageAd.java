@@ -23,22 +23,22 @@ package net.pubnative.sdk.model.response;
 
 import net.pubnative.sdk.PubNativeContract;
 
-import org.droidparts.annotation.json.Key;
+import org.droidparts.annotation.serialize.JSON;
 
 public class ImageAd extends Ad implements
 		PubNativeContract.Response.ImageFormat {
 	private static final long serialVersionUID = 1L;
 
-	@Key(name = IMAGE_URL)
+	@JSON(key = IMAGE_URL)
 	public String imageUrl;
 
-	@Key(name = STORE_ID, optional = true)
+	@JSON(key = STORE_ID, optional = true)
 	public String storeId;
 
-	@Key(name = WIDTH)
+	@JSON(key = WIDTH)
 	public int width;
 
-	@Key(name = HEIGHT)
+	@JSON(key = HEIGHT)
 	public int height;
 
 }

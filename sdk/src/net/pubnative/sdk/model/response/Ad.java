@@ -23,20 +23,20 @@ package net.pubnative.sdk.model.response;
 
 import net.pubnative.sdk.PubNativeContract;
 
-import org.droidparts.annotation.json.Key;
+import org.droidparts.annotation.serialize.JSON;
 import org.droidparts.model.Model;
 
 public abstract class Ad extends Model implements
 		PubNativeContract.Response.Format {
 	private static final long serialVersionUID = 1L;
 
-	@Key(name = TYPE)
+	@JSON(key = TYPE)
 	public String type;
 
-	@Key(name = CLICK_URL)
+	@JSON(key = CLICK_URL)
 	public String clickUrl;
 
-	@Key(name = BEACONS)
+	@JSON(key = BEACONS)
 	private Beacon[] beacons;
 
 	public String getPackageName() {
@@ -56,9 +56,9 @@ public abstract class Ad extends Model implements
 	public static class Beacon extends Model {
 		private static final long serialVersionUID = 1L;
 
-		@Key(name = TYPE)
+		@JSON(key = TYPE)
 		public String type;
-		@Key(name = URL)
+		@JSON(key = URL)
 		public String url;
 	}
 

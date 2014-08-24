@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import net.pubnative.sdk.vast.VastAd.Creative.TrackingEvent;
 
-import org.droidparts.annotation.json.Key;
+import org.droidparts.annotation.serialize.XML;
 import org.droidparts.model.Model;
 
 public class VastAd extends Model {
@@ -32,63 +32,73 @@ public class VastAd extends Model {
 
 	//
 
-	@Key
+	private static final String BASE = "Ad" + XML.SUB + "InLine" + XML.SUB;
+
+	@XML(tag = "Ad", attribute = "id")
 	public long id;
-	@Key
+	@XML(tag = BASE + "AdTitle")
 	public String title;
-	@Key
+	@XML(tag = BASE + "Description")
 	public String description;
-	@Key
+	@XML(tag = BASE + "Impression")
 	public String impressionUrl;
 
-	public final ArrayList<Creative> creatives = new ArrayList<>();
+	@XML(tag = BASE + "Creatives", attribute = "Creative")
+	public ArrayList<Creative> creatives;
 
 	public static class Creative extends Model {
 		private static final long serialVersionUID = 1L;
 
-		@Key
+		@XML(attribute = "id")
 		public long id;
-		@Key
+		@XML(attribute = "AdID")
 		public long adId;
-		@Key
+		@XML(attribute = "sequence")
 		public int sequesnce;
+		@XML(tag = "Linear" + XML.SUB + "Duration")
+		public String duration;
 
-		@Key
-		public final ArrayList<TrackingEvent> trackingEvents = new ArrayList<>();
-		@Key
-		public final ArrayList<MediaFile> mediaFiles = new ArrayList<>();
+		@XML(tag = "Linear" + XML.SUB + "VideoClicks" + XML.SUB
+				+ "ClickThrough")
+		public String videoClickUrl;
+
+		@XML(tag = "Linear" + XML.SUB + "TrackingEvents", attribute = "Tracking")
+		public ArrayList<TrackingEvent> trackingEvents;
+		@XML(tag = "Linear" + XML.SUB + "MediaFiles", attribute = "MediaFile")
+		public ArrayList<MediaFile> mediaFiles;
 
 		//
 
 		public static class TrackingEvent extends Model {
 			private static final long serialVersionUID = 1L;
-			@Key
+
+			@XML(attribute = "event")
 			public String event;
-			@Key
+			@XML
 			public String url;
 		}
 
 		public static class MediaFile extends Model {
 			private static final long serialVersionUID = 1L;
 
-			@Key
+			@XML(attribute = "id")
 			public long id;
-			@Key
+			@XML(attribute = "bitrate")
 			public int bitrate;
-			@Key
+			@XML(attribute = "delivery")
 			public String delivery;
-			@Key
+			@XML(attribute = "height")
 			public int height;
-			@Key
+			@XML(attribute = "maintainAspectRatio")
 			public boolean maintainAspectRatio;
-			@Key
+			@XML(attribute = "scalable")
 			public boolean scalable;
-			@Key
+			@XML(attribute = "type")
 			public String type;
-			@Key
+			@XML(attribute = "width")
 			public int width;
 
-			@Key
+			@XML
 			public String url;
 		}
 	}
