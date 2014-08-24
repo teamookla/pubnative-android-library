@@ -21,9 +21,6 @@
  */
 package net.pubnative.demo.test;
 
-import java.io.StringReader;
-
-import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import net.pubnative.sdk.vast.VastAd;
@@ -31,21 +28,14 @@ import net.pubnative.sdk.vast.VastAd.Creative;
 import net.pubnative.sdk.vast.VastAd.Creative.MediaFile;
 import net.pubnative.sdk.vast.VastParser;
 
-import org.droidparts.util.ResourceUtils;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
+import org.w3c.dom.Node;
 
 import android.test.AndroidTestCase;
 
 public class VastTest extends AndroidTestCase {
 
 	public void testVastParsing() throws Exception {
-		String xml = readRawResource(R.raw.vast_3_example);
-		DocumentBuilder db = DocumentBuilderFactory.newInstance()
-				.newDocumentBuilder();
-		Document doc = db.parse(new InputSource(new StringReader(xml)));
-		VastAd ad = new VastParser(getContext()).deserialize(doc
-				.getFirstChild());
+		VastAd ad = getMockAd();
 		assertEquals(8192328, ad.id);
 		assertEquals("armani", ad.title);
 		assertEquals("armani si preroll", ad.description);
@@ -68,7 +58,12 @@ public class VastTest extends AndroidTestCase {
 				mf.url);
 	}
 
-	private String readRawResource(int resId) {
-		return ResourceUtils.readRawResource(getContext(), resId);
+	private VastAd getMockAd() throws Exception {
+		Node node = DocumentBuilderFactory
+				.newInstance()
+				.newDocumentBuilder()
+				.parse(getContext().getResources().openRawResource(
+						R.raw.vast_3_mock)).getFirstChild();
+		return new VastParser(getContext()).deserialize(node);
 	}
 }
