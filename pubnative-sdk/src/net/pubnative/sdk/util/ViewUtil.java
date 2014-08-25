@@ -21,12 +21,17 @@
  */
 package net.pubnative.sdk.util;
 
+import net.pubnative.sdk.misc.SurfaceTextureListenerAdapter;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.util.DisplayMetrics;
+import android.view.Surface;
+import android.view.TextureView;
 import android.view.View;
+import android.view.ViewGroup;
 
 public class ViewUtil {
 
@@ -57,6 +62,30 @@ public class ViewUtil {
 		p.x = (int) (videoW * scale);
 		p.y = (int) (videoH * scale);
 		return p;
+	}
+
+	public static void setSurface(final MediaPlayer mp, final TextureView tv) {
+		SurfaceTexture st = tv.getSurfaceTexture();
+		if (st != null) {
+			mp.setSurface(new Surface(st));
+		} else {
+			tv.setSurfaceTextureListener(new SurfaceTextureListenerAdapter() {
+
+				@Override
+				public void onSurfaceTextureAvailable(SurfaceTexture st,
+						int width, int height) {
+					tv.setSurfaceTextureListener(null);
+					mp.setSurface(new Surface(st));
+				}
+			});
+		}
+	}
+
+	public static void setSize(TextureView tv, int w, int h) {
+		ViewGroup.LayoutParams layoutParams = tv.getLayoutParams();
+		layoutParams.width = w;
+		layoutParams.height = h;
+		tv.setLayoutParams(layoutParams);
 	}
 
 }

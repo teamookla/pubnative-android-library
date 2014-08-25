@@ -31,7 +31,6 @@ import java.util.Iterator;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-import net.pubnative.sdk.misc.SurfaceTextureListenerAdapter;
 import net.pubnative.sdk.model.holder.AdHolder;
 import net.pubnative.sdk.model.holder.ImageAdHolder;
 import net.pubnative.sdk.model.holder.NativeAdHolder;
@@ -42,6 +41,7 @@ import net.pubnative.sdk.task.SendConfirmationTask;
 import net.pubnative.sdk.util.CachelessImageFetcher;
 import net.pubnative.sdk.util.ViewUtil;
 import net.pubnative.sdk.util.WebRedirector;
+import net.pubnative.sdk.widget.VideoPopup;
 
 import org.droidparts.concurrent.task.AsyncTaskResultListener;
 import org.droidparts.net.http.HTTPResponse;
@@ -53,16 +53,12 @@ import org.droidparts.util.L;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Point;
-import android.graphics.SurfaceTexture;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
-import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -235,29 +231,15 @@ public class PubNative {
 	private static void initVideo(final TextureView tv, final ImageView iv,
 			final Data d) {
 		//
-		setSize(tv, 1, 1);
+		ViewUtil.setSize(tv, 1, 1);
 		//
-		SurfaceTexture st = tv.getSurfaceTexture();
-		if (st != null) {
-			d.mp.setSurface(new Surface(st));
-		} else {
-			tv.setSurfaceTextureListener(new SurfaceTextureListenerAdapter() {
-
-				@Override
-				public void onSurfaceTextureAvailable(SurfaceTexture st,
-						int width, int height) {
-					tv.setSurfaceTextureListener(null);
-					d.mp.setSurface(new Surface(st));
-				}
-
-			});
-		}
+		ViewUtil.setSurface(d.mp, tv);
 		//
 		d.mp.setOnPreparedListener(new OnPreparedListener() {
 
 			@Override
 			public void onPrepared(MediaPlayer mp) {
-				setSize(tv, iv.getWidth(), iv.getHeight());
+				ViewUtil.setSize(tv, iv.getWidth(), iv.getHeight());
 				//
 				d.preparing = false;
 				d.prepared = true;
@@ -279,22 +261,9 @@ public class PubNative {
 
 			@Override
 			public void onClick(View v) {
-				if (d.fullScreen) {
-					setSize(tv, iv.getWidth(), iv.getHeight());
-				} else {
-					Point p = ViewUtil.getFullSceeenSize(tv.getContext(), d.mp);
-					setSize(tv, p.x, p.y);
-				}
-				d.fullScreen = !d.fullScreen;
+				new VideoPopup(d.mp, tv).show();
 			}
 		});
-	}
-
-	private static void setSize(TextureView tv, int w, int h) {
-		ViewGroup.LayoutParams layoutParams = tv.getLayoutParams();
-		layoutParams.width = w;
-		layoutParams.height = h;
-		tv.setLayoutParams(layoutParams);
 	}
 
 	//
@@ -484,7 +453,6 @@ public class PubNative {
 		MediaPlayer mp;
 		boolean preparing;
 		boolean prepared;
-		boolean fullScreen;
 		boolean played;
 
 		Data(AdHolder<?> holder) {
