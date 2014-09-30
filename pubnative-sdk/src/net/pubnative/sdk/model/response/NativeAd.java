@@ -47,35 +47,35 @@ public class NativeAd extends Ad implements
 	@JSON(key = CTA_TEXT)
 	public String ctaText;
 
-	@JSON(key = APP_DETAILS + JSON.SUB + NAME)
-	public String name;
-	@JSON(key = APP_DETAILS + JSON.SUB + PLATFORM)
-	public String platform;
-	@JSON(key = APP_DETAILS + JSON.SUB + REVIEW)
-	public String review;
-	@JSON(key = APP_DETAILS + JSON.SUB + REVIEW_PROS)
-	public String[] reviewPros;
-	@JSON(key = APP_DETAILS + JSON.SUB + REVIEW_CONS)
-	public String[] reviewCons;
-	@JSON(key = APP_DETAILS + JSON.SUB + PUBLISHER)
-	public String publisher;
-	@JSON(key = APP_DETAILS + JSON.SUB + DEVELOPER)
-	public String developer;
-	@JSON(key = APP_DETAILS + JSON.SUB + VERSION)
-	public String version;
-	@JSON(key = APP_DETAILS + JSON.SUB + SIZE)
-	public String size;
-	@JSON(key = APP_DETAILS + JSON.SUB + AGE_RATING)
-	public String ageRating;
-	@JSON(key = APP_DETAILS + JSON.SUB + STORE_RATING)
-	public float storeRating;
-	@JSON(key = APP_DETAILS + JSON.SUB + CATEGORY)
-	public String category;
-	@JSON(key = APP_DETAILS + JSON.SUB + SUB_CATEGORY)
-	public String subCategory;
-	@JSON(key = APP_DETAILS + JSON.SUB + STORE_URL)
-	public String storeUrl;
 	@JSON(key = APP_DETAILS + JSON.SUB + STORE_ID)
 	public String storeId;
+	@JSON(key = APP_DETAILS + JSON.SUB + NAME, optional = true)
+	public String name;
+	@JSON(key = APP_DETAILS + JSON.SUB + PLATFORM, optional = true)
+	public String platform;
+	@JSON(key = APP_DETAILS + JSON.SUB + REVIEW, optional = true)
+	public String review;
+	@JSON(key = APP_DETAILS + JSON.SUB + REVIEW_PROS, optional = true)
+	public String[] reviewPros;
+	@JSON(key = APP_DETAILS + JSON.SUB + REVIEW_CONS, optional = true)
+	public String[] reviewCons;
+	@JSON(key = APP_DETAILS + JSON.SUB + PUBLISHER, optional = true)
+	public String publisher;
+	@JSON(key = APP_DETAILS + JSON.SUB + DEVELOPER, optional = true)
+	public String developer;
+	@JSON(key = APP_DETAILS + JSON.SUB + VERSION, optional = true)
+	public String version;
+	@JSON(key = APP_DETAILS + JSON.SUB + SIZE, optional = true)
+	public String size;
+	@JSON(key = APP_DETAILS + JSON.SUB + AGE_RATING, optional = true)
+	public String ageRating;
+	@JSON(key = APP_DETAILS + JSON.SUB + STORE_RATING, optional = true)
+	public float storeRating;
+	@JSON(key = APP_DETAILS + JSON.SUB + CATEGORY, optional = true)
+	public String category;
+	@JSON(key = APP_DETAILS + JSON.SUB + SUB_CATEGORY, optional = true)
+	public String subCategory;
+	@JSON(key = APP_DETAILS + JSON.SUB + STORE_URL, optional = true)
+	public String storeUrl;
 
 }

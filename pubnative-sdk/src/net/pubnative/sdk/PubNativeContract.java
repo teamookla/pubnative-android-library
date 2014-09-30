@@ -43,6 +43,7 @@ public interface PubNativeContract {
 		String LOCALE = "locale";
 		String ICON_SIZE = "icon_size";
 		String BANNER_SIZE = "banner_size";
+		String PORTRAIT_BANNER_SIZE = "portrait_banner_size";
 		String DEVICE_RESOLUTION = "device_resolution";
 		String DEVICE_TYPE = "device_type";
 		String LAT = "lat";
@@ -55,19 +56,21 @@ public interface PubNativeContract {
 
 	interface UserIdentifier {
 
-		String USER_UNIQUE_ID = "user_unique_id";
-		String MAC_ADDRESS = "mac_address";
-		String MAC_ADDRESS_SHA1 = "mac_address_sha1";
-		String MAC_ADDRESS_MD5 = "mac_address_md5";
 		String APPLE_IDFA = "apple_idfa";
 		String APPLE_IDFA_SHA1 = "apple_idfa_sha1";
 		String APPLE_IDFA_MD5 = "apple_idfa_md5";
+		String ANDROID_ID = "android_id";
+		String ANDROID_ID_SHA1 = "android_id_sha1";
+		String ANDROID_ID_MD5 = "android_id_md5";
 		String ANDROID_IMEI = "android_imei";
 		String ANDROID_IMEI_SHA1 = "android_imei_sha1";
 		String ANDROID_IMEI_MD5 = "android_imei_md5";
 		String ANDROID_ADVERTISER_ID = "android_advertiser_id";
 		String ANDROID_ADVERTISER_ID_SHA1 = "android_advertiser_id_sha1";
 		String ANDROID_ADVERTISER_ID_MD5 = "android_advertiser_id_md5";
+		String MAC_ADDRESS = "mac_address";
+		String MAC_ADDRESS_SHA1 = "mac_address_sha1";
+		String MAC_ADDRESS_MD5 = "mac_address_md5";
 	}
 
 	interface Response {
