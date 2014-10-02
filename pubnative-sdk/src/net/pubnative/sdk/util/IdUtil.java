@@ -21,13 +21,7 @@
  */
 package net.pubnative.sdk.util;
 
-import static org.droidparts.util.Strings.isNotEmpty;
-
 import java.lang.reflect.Method;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.util.Enumeration;
 
 import org.droidparts.util.L;
 
@@ -107,43 +101,6 @@ public class IdUtil {
 			L.v(e);
 			return "";
 		}
-	}
-
-	public static String getCountry(Context ctx) {
-		String country = "";
-		try {
-			TelephonyManager tm = (TelephonyManager) ctx
-					.getSystemService(Context.TELEPHONY_SERVICE);
-			String simCountry = tm.getSimCountryIso();
-			String networkCountry = tm.getNetworkCountryIso();
-			country = isNotEmpty(networkCountry) ? networkCountry : simCountry;
-		} catch (Exception e) {
-			L.v(e);
-		}
-		return country;
-	}
-
-	public static String getIpAddress(Context ctx, boolean privateOk) {
-		try {
-			Enumeration<NetworkInterface> en = NetworkInterface
-					.getNetworkInterfaces();
-			while (en.hasMoreElements()) {
-				Enumeration<InetAddress> ni = en.nextElement()
-						.getInetAddresses();
-				while (ni.hasMoreElements()) {
-					InetAddress addr = ni.nextElement();
-					if ((addr instanceof Inet4Address)
-							&& !addr.isLoopbackAddress()) {
-						if (privateOk || !addr.isSiteLocalAddress()) {
-							return addr.getHostAddress();
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			L.v(e);
-		}
-		return "";
 	}
 
 	public static Location getLastLocation(Context ctx) {

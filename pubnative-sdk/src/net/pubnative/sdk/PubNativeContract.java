@@ -38,8 +38,6 @@ public interface PubNativeContract {
 		String OS = "os";
 		String OS_VERSION = "os_version";
 		String DEVICE_MODEL = "device_model";
-		String IP = "ip";
-		String COUNTRY = "country";
 		String LOCALE = "locale";
 		String ICON_SIZE = "icon_size";
 		String BANNER_SIZE = "banner_size";
@@ -56,6 +54,7 @@ public interface PubNativeContract {
 
 	interface UserIdentifier {
 
+		String NO_USER_ID = "no_user_id";
 		String APPLE_IDFA = "apple_idfa";
 		String APPLE_IDFA_SHA1 = "apple_idfa_sha1";
 		String APPLE_IDFA_MD5 = "apple_idfa_md5";

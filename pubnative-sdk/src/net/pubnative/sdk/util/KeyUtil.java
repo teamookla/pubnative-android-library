@@ -23,6 +23,7 @@ package net.pubnative.sdk.util;
 
 import static org.droidparts.util.Strings.getMD5;
 import static org.droidparts.util.Strings.getSHA1;
+import static org.droidparts.util.Strings.isEmpty;
 import static org.droidparts.util.Strings.isNotEmpty;
 
 import java.lang.reflect.Field;
@@ -81,10 +82,6 @@ public class KeyUtil {
 			return Build.VERSION.RELEASE;
 		case RequestInfo.DEVICE_MODEL:
 			return Build.MODEL;
-		case RequestInfo.IP:
-			return IdUtil.getIpAddress(ctx, false);
-		case RequestInfo.COUNTRY:
-			return IdUtil.getCountry(ctx);
 		case RequestInfo.LOCALE:
 			return Locale.getDefault().getLanguage();
 		case RequestInfo.DEVICE_RESOLUTION:
@@ -114,6 +111,8 @@ public class KeyUtil {
 			return sha1(advId);
 		case UserIdentifier.ANDROID_ADVERTISER_ID_MD5:
 			return md5(advId);
+		case UserIdentifier.NO_USER_ID:
+			return isEmpty(advId) ? "1" : "0";
 		default:
 			return null;
 		}
