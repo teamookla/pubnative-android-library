@@ -1,0 +1,47 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="Theme.PubNativeInterstitials" parent="@android:style/Theme.Translucent">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="_AL_ShadedTextStyle">
+        <item name="android:shadowColor">@color/pn_shadow_normal</item>
+        <item name="android:shadowDx">-0.5</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">3</item>
+    </style>
+    
+    <style name="_AL_DarkShadedTextStyle">
+        <item name="android:shadowColor">@color/pn_shadow_dark</item>
+        <item name="android:shadowDx">-0.5</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">3</item>
+    </style>
+    
+
+    <style name="AL_DailyTileText" parent="@style/_AL_DarkShadedTextStyle">
+        <item name="android:textColor">@color/pn_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="AL_DailyInfoBox">
+        <item name="android:textColor">@color/pn_white</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:background">@drawable/pn_dark_grey_box</item>
+    </style>
+
+    <style name="AL_DownloadButtonStyle" parent="@style/_AL_ShadedTextStyle">
+        <item name="android:textColor">@color/pn_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">34dp</item>
+        <item name="android:minHeight">45dp</item>
+        <item name="android:background">@color/pn_btn_green</item>
+        <item name="android:drawableLeft">@drawable/pn_play_store_icon_small</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+</resources>

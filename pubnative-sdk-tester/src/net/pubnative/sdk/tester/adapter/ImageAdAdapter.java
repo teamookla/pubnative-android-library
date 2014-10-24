@@ -19,35 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.pubnative.sdk.model.holder;
+package net.pubnative.sdk.tester.adapter;
 
-import net.pubnative.sdk.model.AdFormat;
-import net.pubnative.sdk.model.response.NativeAd;
+import net.pubnative.sdk.tester.R;
+import net.pubnative.sdk.model.holder.ImageAdHolder;
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 
-public class NativeAdHolder extends AdHolder<NativeAd> {
+public class ImageAdAdapter extends AbstractAdHolderAdapter<ImageAdHolder> {
 
-	public NativeAdHolder(View view) {
-		super(view);
+	public ImageAdAdapter(Context ctx) {
+		super(ctx);
 	}
 
-	public int iconViewId;
-	public int bannerViewId;
-	public int portraitBannerViewId;
-
-	public int textureViewId;
-
-	public int ratingViewId;
-
-	public int titleViewId;
-	public int subTitleViewId;
-	public int descriptionViewId;
-
-	public int downloadViewId;
-
 	@Override
-	public AdFormat getFormat() {
-		return AdFormat.NATIVE;
+	public ImageAdHolder makeAndAddHolder() {
+		View view = LayoutInflater.from(getContext()).inflate(
+				R.layout.view_response_image_format, null);
+		ImageAdHolder h = new ImageAdHolder(view);
+		h.imageViewId = R.id.view_img;
+		add(h);
+		return h;
 	}
 
 }

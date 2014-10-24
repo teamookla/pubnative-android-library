@@ -38,7 +38,7 @@ import net.pubnative.sdk.model.request.AdRequest;
 import net.pubnative.sdk.model.response.Ad;
 import net.pubnative.sdk.task.GetAdsTask;
 import net.pubnative.sdk.task.SendConfirmationTask;
-import net.pubnative.sdk.util.CachelessImageFetcher;
+import net.pubnative.sdk.util.ImageFetcher;
 import net.pubnative.sdk.util.ViewUtil;
 import net.pubnative.sdk.util.WebRedirector;
 import net.pubnative.sdk.widget.VideoPopup;
@@ -46,7 +46,6 @@ import net.pubnative.sdk.widget.VideoPopup;
 import org.droidparts.concurrent.task.AsyncTaskResultListener;
 import org.droidparts.net.http.HTTPResponse;
 import org.droidparts.net.image.ImageFetchListener;
-import org.droidparts.net.image.ImageFetcher;
 import org.droidparts.net.image.ImageReshaper;
 import org.droidparts.util.L;
 
@@ -79,7 +78,7 @@ public class PubNative {
 		loaded = false;
 		if (holders.length > 0) {
 			ctx = holders[0].getView().getContext().getApplicationContext();
-			imageFetcher = new CachelessImageFetcher(ctx);
+			imageFetcher = new ImageFetcher(ctx);
 			new GetAdsTask<>(ctx, req, makeResultListener(listener, holders))
 					.execute();
 		} else {
@@ -211,20 +210,26 @@ public class PubNative {
 			imageFetcher.attachImage(holder.ad.bannerUrl, bannerView, reshaper,
 					0, ifListener);
 			//
-			TextureView textureView = holder.getView(holder.textureViewId);
-			if (textureView != null) {
-				setInvisible(true, textureView);
-				if (holder.ad.videoUrl != null) {
-					d.mp = new MediaPlayer();
-					try {
-						d.mp.setDataSource(holder.ad.videoUrl);
-						initVideo(textureView, bannerView, d);
-					} catch (Exception e) {
-						d.mp = null;
-						onError(e);
-					}
-				}
-			}
+			// TextureView textureView = holder.getView(holder.textureViewId);
+			// if (textureView != null) {
+			// setInvisible(true, textureView);
+			// if (holder.ad.videoUrl != null) {
+			// d.mp = new MediaPlayer();
+			// try {
+			// d.mp.setDataSource(holder.ad.videoUrl);
+			// initVideo(textureView, bannerView, d);
+			// } catch (Exception e) {
+			// d.mp = null;
+			// onError(e);
+			// }
+			// }
+			// }
+		}
+		ImageView portraitBannerView = holder
+				.getView(holder.portraitBannerViewId);
+		if (portraitBannerView != null) {
+			imageFetcher.attachImage(holder.ad.portraitBannerUrl,
+					portraitBannerView, reshaper, 0, ifListener);
 		}
 	}
 

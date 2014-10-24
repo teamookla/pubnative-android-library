@@ -40,6 +40,8 @@ public class NativeAd extends Ad implements
 
 	@JSON(key = BANNER_URL)
 	public String bannerUrl;
+	@JSON(key = PORTRAIT_BANNER_URL)
+	public String portraitBannerUrl;
 
 	@JSON(key = VIDEO_URL)
 	public String videoUrl;

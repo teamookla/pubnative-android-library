@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="pn_black">@android:color/black</color>
+    <color name="pn_white">@android:color/white</color>
+    <color name="pn_shadow_normal">#555555</color>
+    <color name="pn_shadow_dark">#151515</color>
+    
+    <color name="pn_btn_green">#779C43</color>
+    
+    <color name="pn_background">#f4f4f4</color>
+    
+
+</resources>

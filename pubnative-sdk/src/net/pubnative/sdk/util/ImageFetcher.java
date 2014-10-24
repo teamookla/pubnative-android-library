@@ -19,35 +19,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.pubnative.sdk.model.holder;
+package net.pubnative.sdk.util;
 
-import net.pubnative.sdk.model.AdFormat;
-import net.pubnative.sdk.model.response.NativeAd;
-import android.view.View;
+import org.droidparts.concurrent.thread.BackgroundThreadExecutor;
+import org.droidparts.net.http.RESTClient;
+import org.droidparts.net.image.cache.BitmapMemoryCache;
 
-public class NativeAdHolder extends AdHolder<NativeAd> {
+import android.content.Context;
 
-	public NativeAdHolder(View view) {
-		super(view);
+public class ImageFetcher extends
+		org.droidparts.net.image.ImageFetcher {
+
+	public ImageFetcher(Context ctx) {
+		super(ctx, new BackgroundThreadExecutor(2, "ImageFetcher-Fetch"),
+				new RESTClient(ctx), BitmapMemoryCache.getDefaultInstance(ctx),
+				null);
 	}
-
-	public int iconViewId;
-	public int bannerViewId;
-	public int portraitBannerViewId;
-
-	public int textureViewId;
-
-	public int ratingViewId;
-
-	public int titleViewId;
-	public int subTitleViewId;
-	public int descriptionViewId;
-
-	public int downloadViewId;
-
-	@Override
-	public AdFormat getFormat() {
-		return AdFormat.NATIVE;
-	}
-
 }

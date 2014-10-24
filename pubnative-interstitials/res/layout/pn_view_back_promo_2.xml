@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp" >
+
+        <ImageView
+            android:id="@+id/view_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:adjustViewBounds="true" />
+
+        <TextView
+            android:id="@+id/view_title"
+            style="@style/AL_DailyTileText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/view_icon"
+            android:lines="2" />
+
+        <RatingBar
+            android:id="@+id/view_rating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_icon"
+            android:layout_margin="10dp"
+            android:isIndicator="true" />
+
+        <TextView
+            android:id="@+id/view_description"
+            style="@style/AL_DailyInfoBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_rating"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp" />
+
+        <TextView
+            android:id="@+id/btn_download"
+            style="@style/AL_DownloadButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/view_description"
+            android:layout_margin="10dp" />
+    </RelativeLayout>
+
+</merge>

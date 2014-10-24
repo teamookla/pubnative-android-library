@@ -19,35 +19,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.pubnative.sdk.model.holder;
+package net.pubnative.sdk.tester.adapter;
 
-import net.pubnative.sdk.model.AdFormat;
-import net.pubnative.sdk.model.response.NativeAd;
+import net.pubnative.sdk.model.holder.AdHolder;
+
+import org.droidparts.adapter.widget.ArrayAdapter;
+
+import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 
-public class NativeAdHolder extends AdHolder<NativeAd> {
+public abstract class AbstractAdHolderAdapter<T extends AdHolder<?>> extends
+		ArrayAdapter<T> {
 
-	public NativeAdHolder(View view) {
-		super(view);
+	public AbstractAdHolderAdapter(Context ctx) {
+		super(ctx);
 	}
 
-	public int iconViewId;
-	public int bannerViewId;
-	public int portraitBannerViewId;
-
-	public int textureViewId;
-
-	public int ratingViewId;
-
-	public int titleViewId;
-	public int subTitleViewId;
-	public int descriptionViewId;
-
-	public int downloadViewId;
+	public abstract T makeAndAddHolder();
 
 	@Override
-	public AdFormat getFormat() {
-		return AdFormat.NATIVE;
+	public View getView(int position, View convertView, ViewGroup parent) {
+		return getItem(position).getView();
 	}
 
 }

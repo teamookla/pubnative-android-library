@@ -1,0 +1,102 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/_action_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" >
+
+        <LinearLayout
+            android:id="@+id/view_action_bar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/_app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/side_margin"
+                android:text="@string/app_name"
+                android:textAppearance="@android:style/TextAppearance.Medium" />
+
+            <TextView
+                android:id="@+id/view_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/side_margin"
+                android:textAppearance="@android:style/TextAppearance.Small" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/border"
+        android:layout_marginLeft="@dimen/border"
+        android:layout_marginRight="@dimen/border"
+        android:layout_weight="0.5"
+        android:background="@color/purple" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/side_margin"
+            android:paddingRight="@dimen/side_margin"
+            android:scrollbarStyle="outsideOverlay" >
+
+            <TableLayout
+                android:id="@+id/view_table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="0" />
+        </ScrollView>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/border"
+        android:layout_marginLeft="@dimen/border"
+        android:layout_marginRight="@dimen/border"
+        android:layout_weight="0.5"
+        android:background="@android:color/black"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/side_margin"
+            android:paddingRight="@dimen/side_margin"
+            android:paddingTop="@dimen/side_margin"
+            android:scrollbarStyle="outsideOverlay" >
+
+            <TextView
+                android:id="@+id/view_log_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:textIsSelectable="true"
+                android:textSize="14sp"
+                android:typeface="monospace" />
+        </ScrollView>
+
+        <ProgressBar
+            android:id="@+id/view_status_bar_loading"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="#B4000000"
+            android:indeterminate="true"
+            android:paddingLeft="@dimen/side_margin"
+            android:paddingRight="@dimen/side_margin" />
+    </RelativeLayout>
+
+</LinearLayout>

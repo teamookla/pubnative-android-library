@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pn_background" >
+
+    <include
+        android:id="@+id/view_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/pn_view_back_promo" />
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/pn_view_activity_overlay" />
+
+</RelativeLayout>

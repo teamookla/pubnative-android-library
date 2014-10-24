@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pubnative_demo">PubNative SDK Tester</string>
+    
+    <string name="request">Request</string>
+    <string name="response">Response</string>
+    
+    <string name="response_format_">Response Format:</string>
+    <string name="redirect_type_">Redirect Type:</string>
+    <string name="request_params_">Request Params:</string>
+    
+    <string name="background">Background</string>
+    <string name="browser">Browser</string>
+    <string name="nativ">Native</string>
+    <string name="image">Image</string>
+    
+    <string name="reset">Reset</string>
+    <string name="raw_response">Raw</string>
+    <string name="rendered_response">Rendered</string>
+
+</resources>

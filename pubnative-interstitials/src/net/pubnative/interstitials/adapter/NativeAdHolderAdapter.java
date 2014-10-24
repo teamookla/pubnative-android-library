@@ -19,35 +19,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.pubnative.sdk.model.holder;
+package net.pubnative.interstitials.adapter;
 
-import net.pubnative.sdk.model.AdFormat;
-import net.pubnative.sdk.model.response.NativeAd;
+import net.pubnative.interstitials.R;
+import net.pubnative.sdk.model.holder.NativeAdHolder;
+
+import org.droidparts.adapter.widget.ArrayAdapter;
+
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
-public class NativeAdHolder extends AdHolder<NativeAd> {
+public class NativeAdHolderAdapter extends ArrayAdapter<NativeAdHolder> {
 
-	public NativeAdHolder(View view) {
-		super(view);
+	public NativeAdHolderAdapter(Context ctx) {
+		super(ctx);
 	}
 
-	public int iconViewId;
-	public int bannerViewId;
-	public int portraitBannerViewId;
-
-	public int textureViewId;
-
-	public int ratingViewId;
-
-	public int titleViewId;
-	public int subTitleViewId;
-	public int descriptionViewId;
-
-	public int downloadViewId;
-
 	@Override
-	public AdFormat getFormat() {
-		return AdFormat.NATIVE;
+	public View getView(int position, View convertView, ViewGroup parent) {
+		return getItem(position).getView();
+	}
+
+	public NativeAdHolder makeAndAddHolder() {
+		View view = LayoutInflater.from(getContext()).inflate(
+				R.layout.pn_view_row_native_delegate, null);
+		NativeAdHolder h = new NativeAdHolder(view);
+		h.iconViewId = R.id.view_icon;
+		h.titleViewId = R.id.view_title;
+		h.subTitleViewId = R.id.view_subtitle;
+		h.ratingViewId = R.id.view_rating;
+		h.descriptionViewId = R.id.view_description;
+		h.bannerViewId = R.id.view_banner;
+		h.textureViewId = R.id.view_video;
+		h.downloadViewId = R.id.view_download;
+		add(h);
+		return h;
 	}
 
 }
