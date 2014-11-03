@@ -210,6 +210,7 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 	@Override
 	public void onError(Exception ex) {
 		AbstractDelegate.notifyOnError(ex);
+		finish();
 	}
 
 }

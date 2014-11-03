@@ -55,6 +55,7 @@ public class MainActivity extends Activity implements OnClickListener,
 		versionView.setText(PubNativeInterstitialsConstants.VERSION);
 		addRows();
 		PubNativeInterstitials.init(this, Contract.APP_TOKEN);
+		PubNativeInterstitials.addListener(this);
 	}
 
 	@Override
