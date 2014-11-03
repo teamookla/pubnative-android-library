@@ -378,8 +378,8 @@ public class PubNative {
 
 	private static void cleanUp() {
 		Iterator<Data> it = holders.iterator();
-		Data d;
-		while ((d = it.next()) != null) {
+		while (it.hasNext()) {
+			Data d = it.next();
 			if (d.confirmed && (d.mp == null || d.played)) {
 				it.remove();
 			}
