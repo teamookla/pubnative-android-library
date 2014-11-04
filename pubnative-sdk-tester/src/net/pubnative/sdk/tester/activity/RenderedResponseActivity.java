@@ -99,6 +99,12 @@ public class RenderedResponseActivity extends AbstractResponseActivity
 		super.onResume();
 		PubNative.onResume();
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		PubNative.onDestroy();
+	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,

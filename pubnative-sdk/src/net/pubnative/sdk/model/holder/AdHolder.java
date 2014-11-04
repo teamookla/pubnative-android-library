@@ -32,18 +32,14 @@ public abstract class AdHolder<T extends Ad> {
 
 	public T ad;
 
-	// private WeakReference<View> viewRef;
-
 	private View view;
 
 	public AdHolder(View view) {
-		// this.viewRef = new WeakReference<View>(view);
 		this.view = view;
 	}
 
 	public View getView() {
 		return view;
-		// return viewRef.get();
 	}
 
 	@SuppressWarnings("unchecked")

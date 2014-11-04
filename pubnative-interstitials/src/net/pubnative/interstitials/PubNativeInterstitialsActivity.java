@@ -105,6 +105,12 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 	}
 
 	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		PubNative.onDestroy();
+	}
+
+	@Override
 	protected void onUserLeaveHint() {
 		finish();
 	}

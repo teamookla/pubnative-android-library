@@ -125,6 +125,10 @@ public class PubNative {
 		}
 	}
 
+	public static void onDestroy() {
+		holders.clear();
+	}
+
 	//
 
 	@SuppressWarnings("unchecked")
