@@ -119,7 +119,7 @@ public class WebRedirector implements OnCancelListener {
 			public void onReceivedError(WebView view, int errorCode,
 					String description, String failingUrl) {
 				L.w("Page error code : %s, desc : %s.", errorCode, description);
-				openInPlayStore(link);
+				openInPlayStore(MARKET_PREFIX + pkgName);
 			}
 		};
 		WebView wv = new WebView(act);
@@ -148,8 +148,8 @@ public class WebRedirector implements OnCancelListener {
 
 	private static Uri toPlayStoreUri(String url) {
 		if (url.startsWith(PLAYSTORE_PREFIX)) {
-			String appId = url.substring(PLAYSTORE_PREFIX.length());
-			url = MARKET_PREFIX + appId;
+			String pkgName = url.substring(PLAYSTORE_PREFIX.length());
+			url = MARKET_PREFIX + pkgName;
 		}
 		return Uri.parse(url);
 	}
