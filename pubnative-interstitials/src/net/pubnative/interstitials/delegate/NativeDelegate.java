@@ -14,15 +14,16 @@ import android.widget.ListView;
 public class NativeDelegate extends AbstractDelegate implements
 		OnItemClickListener {
 
-	private static final int COUNT = 5;
-
 	private ListView listView;
 
 	private NativeAdHolder[] holders;
 	private NativeAdHolderAdapter adapter;
 
-	public NativeDelegate(PubNativeInterstitialsActivity act) {
+	private final int adCount;
+
+	public NativeDelegate(PubNativeInterstitialsActivity act, int adCount) {
 		super(act);
+		this.adCount = adCount;
 	}
 
 	@Override
@@ -38,7 +39,7 @@ public class NativeDelegate extends AbstractDelegate implements
 	@Override
 	public AdRequest getAdRequest(String appKey) {
 		AdRequest req = new AdRequest(appKey, AdFormat.NATIVE);
-		req.setAdCount(COUNT);
+		req.setAdCount(adCount);
 		req.fillInDefaults(act);
 		return req;
 	}
@@ -59,8 +60,8 @@ public class NativeDelegate extends AbstractDelegate implements
 	}
 
 	private void createHolders() {
-		holders = new NativeAdHolder[COUNT];
-		for (int i = 0; i < COUNT; i++) {
+		holders = new NativeAdHolder[adCount];
+		for (int i = 0; i < adCount; i++) {
 			holders[i] = adapter.makeAndAddHolder();
 		}
 	}

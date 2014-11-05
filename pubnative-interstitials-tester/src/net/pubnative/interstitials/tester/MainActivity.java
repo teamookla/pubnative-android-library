@@ -10,6 +10,7 @@ import net.pubnative.interstitials.api.PubNativeInterstitialsType;
 import net.pubnative.interstitials.contract.PubNativeInterstitialsConstants;
 import net.pubnative.interstitials.logging.EventData;
 import net.pubnative.interstitials.logging.EventLogger;
+import net.pubnative.interstitials.tester.DialogFactory.SettingsDialogListener;
 import net.pubnative.sdk.model.response.NativeAd;
 
 import org.droidparts.activity.legacy.Activity;
@@ -30,6 +31,9 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements OnClickListener,
 		PubNativeInterstitialsListener, EventLogger.Listener {
 
+	@InjectView(id = R.id.view_action_bar)
+	private View actionBarView;
+
 	@InjectView(id = R.id.view_version)
 	private TextView versionView;
 
@@ -42,6 +46,7 @@ public class MainActivity extends Activity implements OnClickListener,
 	private TextView logTextView;
 
 	private static final Logger logger = new Logger();
+	private DialogFactory dialogFactory;
 
 	@Override
 	public void onPreInject() {
@@ -51,8 +56,10 @@ public class MainActivity extends Activity implements OnClickListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		dialogFactory = new DialogFactory(this);
 		EventLogger.setListener(this);
 		versionView.setText(PubNativeInterstitialsConstants.VERSION);
+		actionBarView.setOnClickListener(this);
 		addRows();
 		PubNativeInterstitials.init(this, Contract.APP_TOKEN);
 		PubNativeInterstitials.addListener(this);
@@ -66,8 +73,23 @@ public class MainActivity extends Activity implements OnClickListener,
 
 	@Override
 	public void onClick(View v) {
-		onRowButtonClick(v);
+		if (v == actionBarView) {
+			dialogFactory.getSettingsDialog(adCount, l).show();
+		} else {
+			onRowButtonClick(v);
+		}
 	}
+
+	private final SettingsDialogListener l = new SettingsDialogListener() {
+
+		@Override
+		public void onAdCountChanged(int count) {
+			adCount = count;
+		}
+
+	};
+
+	private int adCount = 5;
 
 	private void onRowButtonClick(View v) {
 		String tag = (String) v.getTag();
@@ -77,22 +99,22 @@ public class MainActivity extends Activity implements OnClickListener,
 		} catch (Exception ignored) {
 		}
 		showLoading(true);
-		PubNativeInterstitials.show(this, type);
+		PubNativeInterstitials.show(this, type, adCount);
 	}
 
 	//
-	
+
 	@Override
 	public void onShown(PubNativeInterstitialsType type) {
 		showLoading(false);
 		L.i("Shown %s.", type);
 	}
-	
+
 	@Override
 	public void onTapped(NativeAd ad) {
 		L.i("Tapped %s.", ad);
 	}
-	
+
 	@Override
 	public void onClosed(PubNativeInterstitialsType type) {
 		L.i("Closed %s", type);
@@ -122,7 +144,8 @@ public class MainActivity extends Activity implements OnClickListener,
 	//
 
 	private void addRows() {
-		for (PubNativeInterstitialsType type : PubNativeInterstitialsType.values()) {
+		for (PubNativeInterstitialsType type : PubNativeInterstitialsType
+				.values()) {
 			addRow(type.name());
 		}
 	}

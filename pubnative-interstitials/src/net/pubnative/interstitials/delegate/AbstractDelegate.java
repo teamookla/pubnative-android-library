@@ -28,12 +28,12 @@ public abstract class AbstractDelegate implements OnClickListener {
 	public static boolean backgroundRedirectEnabled = true;
 
 	public static AbstractDelegate get(PubNativeInterstitialsActivity act,
-			PubNativeInterstitialsType type) {
+			PubNativeInterstitialsType type, int adCount) {
 		switch (type) {
 		case INTERSTITIAL:
 			return new InterstitialDelegate(act);
 		case NATIVE:
-			return new NativeDelegate(act);
+			return new NativeDelegate(act, adCount);
 		default:
 			throw new IllegalArgumentException(type.toString());
 		}
@@ -136,12 +136,13 @@ public abstract class AbstractDelegate implements OnClickListener {
 
 	//
 
-	public static void show(Activity act, PubNativeInterstitialsType type) {
+	public static void show(Activity act, PubNativeInterstitialsType type,
+			int adCount) {
 		EventLogger.logEvent(Event.SHOW, type, true);
 		callingActivityIsFullScreen = ScreenUtil.isFullScreen(act);
 		showCalled = true;
 		Intent intent = PubNativeInterstitialsActivity.getShowPromosIntent(ctx,
-				callingActivityIsFullScreen, type);
+				callingActivityIsFullScreen, type, adCount);
 		ctx.startActivity(intent);
 	}
 

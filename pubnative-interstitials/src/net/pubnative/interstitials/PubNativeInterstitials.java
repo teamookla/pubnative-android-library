@@ -41,10 +41,11 @@ public class PubNativeInterstitials {
 
 	//
 
-	public static void show(Activity act, PubNativeInterstitialsType type) {
+	public static void show(Activity act, PubNativeInterstitialsType type,
+			int adCount) {
 		checkThread();
 		checkInited();
-		AbstractDelegate.show(act, type);
+		AbstractDelegate.show(act, type, adCount);
 	}
 
 	private static void checkThread() {

@@ -3,6 +3,7 @@
 
     <string name="app_name">PubNative Interstitials Tester</string>
     
+    <string name="ad_count_">Ad Count:</string>
     <string name="show">Show</string>
     
 </resources>

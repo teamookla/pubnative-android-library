@@ -27,8 +27,8 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 		PubNativeListener {
 
 	public static Intent getShowPromosIntent(Context ctx, boolean fullScreen,
-			PubNativeInterstitialsType type) {
-		return IntentData.getShowPromosIntent(ctx, fullScreen, type);
+			PubNativeInterstitialsType type, int adCount) {
+		return IntentData.getShowPromosIntent(ctx, fullScreen, type, adCount);
 	}
 
 	public static Intent getFinishIntent(Context ctx, boolean fullScreen) {
@@ -73,7 +73,8 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 		if (id.isContentIntent()) {
 			if (onCreate) {
 				if (delegate == null || delegate.getType() != id.getType()) {
-					delegate = AbstractDelegate.get(this, id.getType());
+					delegate = AbstractDelegate.get(this, id.getType(),
+							id.getAdCount());
 				}
 				delegate.onCreate();
 				PubNative.showAd(delegate.getAdRequest(InMem.appKey),
@@ -144,9 +145,10 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 	static class IntentData {
 
 		static Intent getShowPromosIntent(Context ctx, boolean fullScreen,
-				PubNativeInterstitialsType type) {
+				PubNativeInterstitialsType type, int adCount) {
 			Intent intent = getIntent(ctx, CONTENT_INTENT, fullScreen);
 			intent.putExtra(EXTRA_TYPE, type);
+			intent.putExtra(EXTRA_AD_COUNT, adCount);
 			return intent;
 		}
 
@@ -175,6 +177,7 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 		private static final String FINISH_INTENT = "intent_finish";
 
 		private static final String EXTRA_TYPE = "type";
+		private static final String EXTRA_AD_COUNT = "ad_count";
 		private static final String EXTRA_FULL_SCREEN = "full_screen";
 
 		private static final String EXTRA_SHOW_LOADING = "show_loading";
@@ -204,6 +207,10 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 		PubNativeInterstitialsType getType() {
 			return (PubNativeInterstitialsType) intent
 					.getSerializableExtra(EXTRA_TYPE);
+		}
+
+		int getAdCount() {
+			return intent.getIntExtra(EXTRA_AD_COUNT, -1);
 		}
 
 	}

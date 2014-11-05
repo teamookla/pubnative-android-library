@@ -1,0 +1,22 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/side_margin" >
+
+    <TextView
+        android:id="@+id/_ad_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/ad_count_"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+    <EditText
+        android:id="@+id/view_ad_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/_ad_count"
+        android:layout_alignParentRight="true"
+        android:inputType="number"
+        android:textAppearance="@android:style/TextAppearance.Medium" />
+
+</RelativeLayout>
