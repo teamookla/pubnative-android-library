@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.pubnative.interstitials.adapter;
+package net.pubnative.interstitials.delegate.adapter;
 
 import net.pubnative.interstitials.R;
 import net.pubnative.sdk.model.holder.NativeAdHolder;
@@ -37,18 +37,13 @@ public class NativeAdHolderAdapter extends ArrayAdapter<NativeAdHolder> {
 		super(ctx);
 	}
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		return getItem(position).getView();
-	}
-
 	public NativeAdHolder makeAndAddHolder() {
-		View view = LayoutInflater.from(getContext()).inflate(
-				R.layout.pn_view_row_native_delegate, null);
+		View view = LayoutInflater.from(getContext()).inflate(getLayoutId(),
+				null);
 		NativeAdHolder h = new NativeAdHolder(view);
 		h.iconViewId = R.id.view_icon;
 		h.titleViewId = R.id.view_title;
-		h.subTitleViewId = R.id.view_subtitle;
+		h.subTitleViewId = R.id.view_description;
 		h.ratingViewId = R.id.view_rating;
 		h.descriptionViewId = R.id.view_description;
 		h.bannerViewId = R.id.view_banner;
@@ -56,6 +51,15 @@ public class NativeAdHolderAdapter extends ArrayAdapter<NativeAdHolder> {
 		h.downloadViewId = R.id.view_download;
 		add(h);
 		return h;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		return getItem(position).getView();
+	}
+
+	protected int getLayoutId() {
+		return R.layout.pn_view_row_native_delegate;
 	}
 
 }

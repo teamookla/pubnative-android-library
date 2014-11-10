@@ -34,6 +34,8 @@ public abstract class AbstractDelegate implements OnClickListener {
 			return new InterstitialDelegate(act);
 		case NATIVE:
 			return new NativeDelegate(act, adCount);
+		case LIST:
+			return new ListDelegate(act, adCount);
 		default:
 			throw new IllegalArgumentException(type.toString());
 		}

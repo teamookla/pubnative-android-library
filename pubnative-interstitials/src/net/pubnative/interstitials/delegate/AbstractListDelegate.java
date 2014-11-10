@@ -6,13 +6,12 @@ import net.pubnative.interstitials.delegate.adapter.NativeAdHolderAdapter;
 import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.holder.NativeAdHolder;
 import net.pubnative.sdk.model.request.AdRequest;
-import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class NativeDelegate extends AbstractDelegate implements
+public class AbstractListDelegate extends AbstractDelegate implements
 		OnItemClickListener {
 
 	private ListView listView;
@@ -22,14 +21,14 @@ public class NativeDelegate extends AbstractDelegate implements
 
 	private final int adCount;
 
-	public NativeDelegate(PubNativeInterstitialsActivity act, int adCount) {
+	public AbstractListDelegate(PubNativeInterstitialsActivity act, int adCount) {
 		super(act);
 		this.adCount = adCount;
 	}
 
 	@Override
 	public PubNativeInterstitialsType getType() {
-		return PubNativeInterstitialsType.NATIVE;
+		return PubNativeInterstitialsType.LIST;
 	}
 
 	@Override
@@ -54,7 +53,7 @@ public class NativeDelegate extends AbstractDelegate implements
 	public void onCreate() {
 		super.onCreate();
 		listView = findViewById("view_list");
-		adapter = createAdapter(act);
+		adapter = new NativeAdHolderAdapter(act);
 		listView.setOnItemClickListener(this);
 		listView.setAdapter(adapter);
 		createHolders();
@@ -71,10 +70,6 @@ public class NativeDelegate extends AbstractDelegate implements
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 		showInPlayStore(adapter.getItem(position).ad);
-	}
-
-	protected NativeAdHolderAdapter createAdapter(Context ctx) {
-		return new NativeAdHolderAdapter(ctx);
 	}
 
 }

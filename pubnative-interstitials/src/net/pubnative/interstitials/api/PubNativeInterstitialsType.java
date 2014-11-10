@@ -2,6 +2,6 @@ package net.pubnative.interstitials.api;
 
 public enum PubNativeInterstitialsType {
 
-	INTERSTITIAL, NATIVE
+	INTERSTITIAL, NATIVE, LIST
 
 }

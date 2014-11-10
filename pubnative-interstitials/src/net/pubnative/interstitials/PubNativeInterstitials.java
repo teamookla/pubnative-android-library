@@ -5,9 +5,12 @@ import net.pubnative.interstitials.api.PubNativeInterstitialsListener;
 import net.pubnative.interstitials.api.PubNativeInterstitialsType;
 import net.pubnative.interstitials.contract.PubNativeInterstitialsConstants;
 import net.pubnative.interstitials.delegate.AbstractDelegate;
+import net.pubnative.sdk.PubNative;
+import net.pubnative.sdk.util.DensityReshaper;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Looper;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 public class PubNativeInterstitials {
@@ -18,6 +21,8 @@ public class PubNativeInterstitials {
 		checkThread();
 		log(PubNativeInterstitialsConstants.VERSION);
 		if (!appKey.equals(lastAppKey)) {
+			PubNative.setImageReshaper(new DensityReshaper(ctx,
+					DisplayMetrics.DENSITY_MEDIUM));
 			AbstractDelegate.init(ctx, appKey);
 			lastAppKey = appKey;
 		} else {
