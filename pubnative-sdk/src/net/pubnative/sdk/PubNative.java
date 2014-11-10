@@ -199,6 +199,10 @@ public class PubNative {
 		if (descriptionView != null) {
 			descriptionView.setText(holder.ad.description);
 		}
+		TextView categoryView = holder.getView(holder.categoryViewId);
+		if (categoryView != null) {
+			categoryView.setText(holder.ad.category);
+		}
 		TextView downloadView = holder.getView(holder.downloadViewId);
 		if (downloadView != null) {
 			downloadView.setText(holder.ad.ctaText);
