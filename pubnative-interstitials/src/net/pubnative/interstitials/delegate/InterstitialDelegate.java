@@ -5,9 +5,7 @@ import net.pubnative.interstitials.PubNativeInterstitialsActivity;
 import net.pubnative.interstitials.R;
 import net.pubnative.interstitials.api.PubNativeInterstitialsType;
 import net.pubnative.interstitials.util.ScreenUtil;
-import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.holder.NativeAdHolder;
-import net.pubnative.sdk.model.request.AdRequest;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -17,7 +15,7 @@ public class InterstitialDelegate extends AbstractDelegate {
 	private NativeAdHolder[] holders;
 
 	public InterstitialDelegate(PubNativeInterstitialsActivity act) {
-		super(act);
+		super(act, 1);
 	}
 
 	@Override
@@ -28,13 +26,6 @@ public class InterstitialDelegate extends AbstractDelegate {
 	@Override
 	protected String getContentLayoutName() {
 		return "pn_delegate_interstitial";
-	}
-
-	@Override
-	public AdRequest getAdRequest(String appKey) {
-		AdRequest req = new AdRequest(appKey, AdFormat.NATIVE);
-		req.fillInDefaults(act);
-		return req;
 	}
 
 	@Override

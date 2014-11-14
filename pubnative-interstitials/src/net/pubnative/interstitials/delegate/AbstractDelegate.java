@@ -13,6 +13,7 @@ import net.pubnative.interstitials.persist.InMem;
 import net.pubnative.interstitials.util.Res;
 import net.pubnative.interstitials.util.ScreenUtil;
 import net.pubnative.sdk.PubNative;
+import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.holder.NativeAdHolder;
 import net.pubnative.sdk.model.request.AdRequest;
 import net.pubnative.sdk.model.response.NativeAd;
@@ -36,20 +37,24 @@ public abstract class AbstractDelegate implements OnClickListener {
 			return new NativeDelegate(act, adCount);
 		case LIST:
 			return new ListDelegate(act, adCount);
+		case CAROUSEL:
+			return new CarouselDelegate(act, adCount);
 		default:
 			throw new IllegalArgumentException(type.toString());
 		}
 	}
 
 	protected final PubNativeInterstitialsActivity act;
+	protected final int adCount;
 
 	protected View contentView;
 	protected View holderView;
 
 	protected View closeBtn;
 
-	public AbstractDelegate(PubNativeInterstitialsActivity act) {
+	public AbstractDelegate(PubNativeInterstitialsActivity act, int adCount) {
 		this.act = act;
+		this.adCount = adCount;
 	}
 
 	public void onCreate() {
@@ -62,7 +67,12 @@ public abstract class AbstractDelegate implements OnClickListener {
 		act.setContentView(contentView);
 	}
 
-	public abstract AdRequest getAdRequest(String appKey);
+	public final AdRequest getAdRequest(String appKey) {
+		AdRequest req = new AdRequest(appKey, AdFormat.NATIVE);
+		req.fillInDefaults(act);
+		req.setAdCount(adCount);
+		return req;
+	}
 
 	public abstract NativeAdHolder[] getNativeAdHolders();
 

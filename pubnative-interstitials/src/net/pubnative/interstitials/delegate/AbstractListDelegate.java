@@ -3,9 +3,7 @@ package net.pubnative.interstitials.delegate;
 import net.pubnative.interstitials.PubNativeInterstitialsActivity;
 import net.pubnative.interstitials.api.PubNativeInterstitialsType;
 import net.pubnative.interstitials.delegate.adapter.NativeAdHolderAdapter;
-import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.holder.NativeAdHolder;
-import net.pubnative.sdk.model.request.AdRequest;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -19,11 +17,8 @@ public class AbstractListDelegate extends AbstractDelegate implements
 	private NativeAdHolder[] holders;
 	private NativeAdHolderAdapter adapter;
 
-	private final int adCount;
-
 	public AbstractListDelegate(PubNativeInterstitialsActivity act, int adCount) {
-		super(act);
-		this.adCount = adCount;
+		super(act, adCount);
 	}
 
 	@Override
@@ -34,14 +29,6 @@ public class AbstractListDelegate extends AbstractDelegate implements
 	@Override
 	protected String getContentLayoutName() {
 		return "pn_delegate_list";
-	}
-
-	@Override
-	public AdRequest getAdRequest(String appKey) {
-		AdRequest req = new AdRequest(appKey, AdFormat.NATIVE);
-		req.setAdCount(adCount);
-		req.fillInDefaults(act);
-		return req;
 	}
 
 	@Override
