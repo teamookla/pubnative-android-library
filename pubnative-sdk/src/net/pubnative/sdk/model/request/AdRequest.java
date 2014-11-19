@@ -41,6 +41,7 @@ public class AdRequest implements Serializable {
 	public AdRequest(String appToken, AdFormat format) {
 		this.appToken = appToken;
 		this.format = format;
+		params.put(RequestInfo.APP_TOKEN, appToken);
 	}
 
 	public void fillInDefaults(Context ctx) {

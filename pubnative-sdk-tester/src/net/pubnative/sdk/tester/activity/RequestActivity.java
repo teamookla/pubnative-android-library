@@ -27,12 +27,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.pubnative.sdk.tester.PrefsManager;
-import net.pubnative.sdk.tester.R;
-import net.pubnative.sdk.tester.contract.Contract;
 import net.pubnative.sdk.PubNativeContract;
 import net.pubnative.sdk.model.AdFormat;
 import net.pubnative.sdk.model.request.AdRequest;
+import net.pubnative.sdk.tester.PrefsManager;
+import net.pubnative.sdk.tester.R;
+import net.pubnative.sdk.tester.contract.Contract;
 import net.pubnative.sdk.util.KeyUtil;
 
 import org.droidparts.activity.legacy.Activity;
@@ -134,7 +134,6 @@ public class RequestActivity extends Activity implements OnClickListener,
 		req.setAdCount(4);
 		req.setIconSize(100, 100);
 		req.setBannerSize(480, 320);
-		req.getParams().put(RequestInfo.APP_TOKEN, Contract.APP_TOKEN);
 		setParams(req.getParams());
 	}
 
