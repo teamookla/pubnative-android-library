@@ -7,6 +7,8 @@ import net.pubnative.sdk.model.holder.NativeAdHolder;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -39,6 +41,7 @@ public class AdCarouselView extends HorizontalScrollView implements
 		setHorizontalScrollBarEnabled(false);
 		setOverScrollMode(OVER_SCROLL_NEVER);
 		addView(containerView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+		gd = new GestureDetector(ctx, gl, null);
 	}
 
 	public void setListener(Listener listener) {
@@ -85,13 +88,23 @@ public class AdCarouselView extends HorizontalScrollView implements
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
-		switch (ev.getAction()) {
-		case MotionEvent.ACTION_UP:
-		case MotionEvent.ACTION_CANCEL:
-			setCurrHolder();
-			scrollToCurrHolder();
+		if (gd.onTouchEvent(ev)) {
 			return true;
-		default:
+		} else {
+			switch (ev.getAction()) {
+			case MotionEvent.ACTION_MOVE:
+				if (firstTouchX == -1) {
+					firstTouchX = (int) ev.getRawX();
+				}
+				break;
+			case MotionEvent.ACTION_UP:
+			case MotionEvent.ACTION_CANCEL:
+				swipeLength = (int) (firstTouchX - ev.getRawX());
+				firstTouchX = -1;
+				setCurrHolder();
+				scrollToCurrHolder();
+				return true;
+			}
 			return super.onTouchEvent(ev);
 		}
 	}
@@ -108,6 +121,9 @@ public class AdCarouselView extends HorizontalScrollView implements
 		}, 100);
 	}
 
+	private int firstTouchX = -1;
+	private int swipeLength;
+
 	private int currHolder = 0;
 
 	private void setCurrHolder() {
@@ -120,7 +136,8 @@ public class AdCarouselView extends HorizontalScrollView implements
 		if (screenEnd) {
 			currHolder = lastHolder;
 		} else {
-			currHolder = (scrollPosition + (holderWidth / 2)) / holderWidth;
+			int step = (swipeLength > 0) ? holderWidth : holderWidth / 2;
+			currHolder = (scrollPosition + step) / holderWidth;
 		}
 	}
 
@@ -130,9 +147,11 @@ public class AdCarouselView extends HorizontalScrollView implements
 		int lastHolder = containerView.getChildCount() - 1;
 		int containerWidth = containerView.getMeasuredWidth();
 		int scrollTo;
-		if (currHolder == 0) {
+		if (currHolder <= 0) {
+			currHolder = 0;
 			scrollTo = 0;
-		} else if (currHolder == lastHolder) {
+		} else if (currHolder >= lastHolder) {
+			currHolder = lastHolder;
 			scrollTo = containerWidth - holderWidth;
 		} else {
 			scrollTo = currHolder * holderWidth - (screenWidth - holderWidth)
@@ -140,5 +159,21 @@ public class AdCarouselView extends HorizontalScrollView implements
 		}
 		smoothScrollTo(scrollTo, 0);
 	}
+
+	private GestureDetector gd;
+	private final GestureDetector.OnGestureListener gl = new SimpleOnGestureListener() {
+		@Override
+		public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
+				float velocityY) {
+			boolean right = (velocityX < 0);
+			if (right) {
+				currHolder++;
+			} else {
+				currHolder--;
+			}
+			scrollToCurrHolder();
+			return true;
+		}
+	};
 
 }
