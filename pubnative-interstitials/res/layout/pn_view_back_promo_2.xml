@@ -15,11 +15,12 @@
 
         <TextView
             android:id="@+id/view_title"
-            style="@style/AL_DailyTileText"
+            style="@android:style/TextAppearance.Large.Inverse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/view_icon"
-            android:lines="2" />
+            android:lines="2"
+            android:textSize="20sp" />
 
         <RatingBar
             android:id="@+id/view_rating"

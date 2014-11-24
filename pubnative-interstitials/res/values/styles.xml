@@ -19,8 +19,7 @@
     </style>
     
 
-    <style name="AL_DailyTileText" parent="@style/_AL_DarkShadedTextStyle">
-        <item name="android:textColor">@color/pn_white</item>
+    <style name="PN_TitleText" parent="@style/_AL_DarkShadedTextStyle">
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">18sp</item>
     </style>
