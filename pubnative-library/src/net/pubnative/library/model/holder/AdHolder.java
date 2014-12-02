@@ -32,7 +32,7 @@ public abstract class AdHolder<T extends Ad> {
 
 	public T ad;
 
-	private View view;
+	private final View view;
 
 	public AdHolder(View view) {
 		this.view = view;

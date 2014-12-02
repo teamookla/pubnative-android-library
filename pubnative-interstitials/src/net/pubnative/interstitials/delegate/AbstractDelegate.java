@@ -1,3 +1,24 @@
+/**
+ * Copyright 2014 PubNative GmbH
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package net.pubnative.interstitials.delegate;
 
 import static org.droidparts.util.ui.ViewUtils.setInvisible;
@@ -5,18 +26,22 @@ import static org.droidparts.util.ui.ViewUtils.setInvisible;
 import java.util.WeakHashMap;
 
 import net.pubnative.interstitials.PubNativeInterstitialsActivity;
+import net.pubnative.interstitials.R;
 import net.pubnative.interstitials.api.PubNativeInterstitialsListener;
 import net.pubnative.interstitials.api.PubNativeInterstitialsType;
 import net.pubnative.interstitials.logging.Event;
 import net.pubnative.interstitials.logging.EventLogger;
 import net.pubnative.interstitials.persist.InMem;
-import net.pubnative.interstitials.util.Res;
 import net.pubnative.interstitials.util.ScreenUtil;
 import net.pubnative.library.PubNative;
+import net.pubnative.library.inner.PubNativeWorker;
 import net.pubnative.library.model.AdFormat;
-import net.pubnative.library.model.holder.NativeAdHolder;
+import net.pubnative.library.model.holder.AdHolder;
 import net.pubnative.library.model.request.AdRequest;
 import net.pubnative.library.model.response.NativeAd;
+
+import org.droidparts.util.ui.ViewUtils;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +64,10 @@ public abstract class AbstractDelegate implements OnClickListener {
 			return new ListDelegate(act, adCount);
 		case CAROUSEL:
 			return new CarouselDelegate(act, adCount);
+		case VIDEO_BANNER:
+			return new VideoBannerDelegate(act);
+		case VIDEO_IN_FEED:
+			return new VideoInFeedDelegate(act);
 		default:
 			throw new IllegalArgumentException(type.toString());
 		}
@@ -58,23 +87,27 @@ public abstract class AbstractDelegate implements OnClickListener {
 	}
 
 	public void onCreate() {
-		contentView = LayoutInflater.from(act).inflate(
-				Res.layoutId(act, getContentLayoutName()), null);
+		contentView = LayoutInflater.from(act).inflate(getContentLayoutId(),
+				null);
 		setInvisible(true, contentView);
-		closeBtn = findViewById("btn_close");
+		closeBtn = findViewById(R.id.btn_close);
 		closeBtn.setOnClickListener(this);
-		holderView = findViewById("view_holder");
+		holderView = findViewById(R.id.view_holder);
 		act.setContentView(contentView);
 	}
 
 	public final AdRequest getAdRequest(String appKey) {
-		AdRequest req = new AdRequest(appKey, AdFormat.NATIVE);
+		AdRequest req = new AdRequest(appKey, getAdFormat());
 		req.fillInDefaults(act);
 		req.setAdCount(adCount);
 		return req;
 	}
 
-	public abstract NativeAdHolder[] getNativeAdHolders();
+	protected AdFormat getAdFormat() {
+		return AdFormat.NATIVE;
+	}
+
+	public abstract AdHolder<?>[] getAdHolders();
 
 	public void onRotate() {
 	}
@@ -98,11 +131,11 @@ public abstract class AbstractDelegate implements OnClickListener {
 	}
 
 	public void onResume() {
-		PubNative.onResume();
+		PubNativeWorker.onResume();
 	}
 
 	public void onPause() {
-		PubNative.onPause();
+		PubNativeWorker.onPause();
 	}
 
 	public void onActivityFinish() {
@@ -113,10 +146,10 @@ public abstract class AbstractDelegate implements OnClickListener {
 
 	public abstract PubNativeInterstitialsType getType();
 
-	protected abstract String getContentLayoutName();
+	protected abstract int getContentLayoutId();
 
-	protected final <T extends View> T findViewById(String id) {
-		return Res.findViewById(contentView, id);
+	protected final <T extends View> T findViewById(int id) {
+		return ViewUtils.findViewById(contentView, id);
 	}
 
 	//

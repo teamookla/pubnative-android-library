@@ -1,3 +1,24 @@
+/**
+ * Copyright 2014 PubNative GmbH
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
 package net.pubnative.interstitials;
 
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
@@ -13,8 +34,9 @@ import net.pubnative.interstitials.delegate.AbstractDelegate;
 import net.pubnative.interstitials.logging.Event;
 import net.pubnative.interstitials.logging.EventLogger;
 import net.pubnative.interstitials.persist.InMem;
-import net.pubnative.library.PubNative;
 import net.pubnative.library.PubNativeListener;
+import net.pubnative.library.inner.PubNativeWorker;
+import net.pubnative.library.model.response.NativeAd;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -29,6 +51,11 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 	public static Intent getShowPromosIntent(Context ctx, boolean fullScreen,
 			PubNativeInterstitialsType type, int adCount) {
 		return IntentData.getShowPromosIntent(ctx, fullScreen, type, adCount);
+	}
+
+	public static Intent getShowPromosIntent(Context ctx, boolean fullScreen,
+			PubNativeInterstitialsType type, NativeAd ad) {
+		return IntentData.getShowPromosIntent(ctx, fullScreen, type, ad);
 	}
 
 	public static Intent getFinishIntent(Context ctx, boolean fullScreen) {
@@ -47,7 +74,7 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 		if (id.isFullScreen()) {
 			getWindow().addFlags(FLAG_FULLSCREEN);
 		}
-		PubNative.setListener(this);
+		PubNativeWorker.setListener(this);
 		initFromIntentData(id, true);
 	}
 
@@ -77,8 +104,8 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 							id.getAdCount());
 				}
 				delegate.onCreate();
-				PubNative.showAd(delegate.getAdRequest(InMem.appKey),
-						delegate.getNativeAdHolders());
+				PubNativeWorker.showAd(delegate.getAdRequest(InMem.appKey),
+						delegate.getAdHolders());
 			} else {
 				delegate.onRotate();
 			}
@@ -108,7 +135,7 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		PubNative.onDestroy();
+		PubNativeWorker.onDestroy();
 	}
 
 	@Override
@@ -145,6 +172,13 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 	static class IntentData {
 
 		static Intent getShowPromosIntent(Context ctx, boolean fullScreen,
+				PubNativeInterstitialsType type, NativeAd ad) {
+			Intent intent = getShowPromosIntent(ctx, fullScreen, type, 1);
+			intent.putExtra(EXTRA_AD, ad);
+			return intent;
+		}
+
+		static Intent getShowPromosIntent(Context ctx, boolean fullScreen,
 				PubNativeInterstitialsType type, int adCount) {
 			Intent intent = getIntent(ctx, CONTENT_INTENT, fullScreen);
 			intent.putExtra(EXTRA_TYPE, type);
@@ -178,6 +212,7 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 
 		private static final String EXTRA_TYPE = "type";
 		private static final String EXTRA_AD_COUNT = "ad_count";
+		private static final String EXTRA_AD = "ad";
 		private static final String EXTRA_FULL_SCREEN = "full_screen";
 
 		private static final String EXTRA_SHOW_LOADING = "show_loading";
@@ -202,6 +237,10 @@ public final class PubNativeInterstitialsActivity extends Activity implements
 
 		boolean isShowLoading() {
 			return intent.getBooleanExtra(EXTRA_SHOW_LOADING, false);
+		}
+
+		NativeAd getAd() {
+			return (NativeAd) intent.getSerializableExtra(EXTRA_AD);
 		}
 
 		PubNativeInterstitialsType getType() {

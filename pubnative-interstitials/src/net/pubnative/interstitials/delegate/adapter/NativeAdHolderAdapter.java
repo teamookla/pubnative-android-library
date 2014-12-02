@@ -48,7 +48,6 @@ public class NativeAdHolderAdapter extends ArrayAdapter<NativeAdHolder> {
 		h.descriptionViewId = R.id.view_description;
 		h.categoryViewId = R.id.view_category;
 		h.bannerViewId = R.id.view_banner;
-		h.textureViewId = R.id.view_video;
 		h.downloadViewId = R.id.view_download;
 		add(h);
 		return h;

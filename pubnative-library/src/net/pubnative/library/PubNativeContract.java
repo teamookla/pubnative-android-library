@@ -23,10 +23,11 @@ package net.pubnative.library;
 
 public interface PubNativeContract {
 
-	String BASE_URL = "http://api.pubnative.net/api/partner/v2/promotions/";
+	String BASE_URL = "http://api.pubnative.net/api/partner/v2/promotions";
 
-	String NATIVE = "native";
 	String IMAGE = "image";
+	String NATIVE = "native";
+	String VIDEO = "video";
 
 	interface RequestInfo {
 
@@ -91,7 +92,10 @@ public interface PubNativeContract {
 			String BANNER_URL = "banner_url";
 			String PORTRAIT_BANNER_URL = "portrait_banner_url";
 
-			String VIDEO_URL = "video_url";
+			String VAST = "vast";
+			String AD = "ad";
+			String VIDEO_SKIP_TIME = "video_skip_time";
+			String SKIP_VIDEO_BUTTON = "skip_video_button";
 
 			String CTA_TEXT = "cta_text";
 

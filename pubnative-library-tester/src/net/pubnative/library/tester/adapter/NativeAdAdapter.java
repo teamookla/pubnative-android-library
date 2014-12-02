@@ -23,6 +23,7 @@ package net.pubnative.library.tester.adapter;
 
 import net.pubnative.library.tester.R;
 import net.pubnative.library.model.holder.NativeAdHolder;
+import net.pubnative.library.model.holder.VideoAdHolder;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,6 @@ public class NativeAdAdapter extends AbstractAdHolderAdapter<NativeAdHolder> {
 		h.ratingViewId = R.id.view_rating;
 		h.descriptionViewId = R.id.view_description;
 		h.bannerViewId = R.id.view_banner;
-		h.textureViewId = R.id.view_video;
 		h.downloadViewId = R.id.view_download;
 		add(h);
 		return h;

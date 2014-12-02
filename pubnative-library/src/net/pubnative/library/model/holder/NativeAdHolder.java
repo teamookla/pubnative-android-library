@@ -35,8 +35,6 @@ public class NativeAdHolder extends AdHolder<NativeAd> {
 	public int bannerViewId;
 	public int portraitBannerViewId;
 
-	public int textureViewId;
-
 	public int ratingViewId;
 
 	public int titleViewId;

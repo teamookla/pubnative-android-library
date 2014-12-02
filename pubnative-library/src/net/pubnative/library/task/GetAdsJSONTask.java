@@ -48,5 +48,4 @@ public class GetAdsJSONTask extends SimpleAsyncTask<JSONObject> {
 				.toString());
 		return resp;
 	}
-
 }

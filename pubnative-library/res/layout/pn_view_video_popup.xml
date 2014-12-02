@@ -3,10 +3,10 @@
     android:layout_height="match_parent"
     android:background="@android:color/black" >
 
-    <TextureView
-        android:id="@+id/view_texture"
+    <include
+        android:id="@+id/view_video_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center" />
+        layout="@layout/pn_view_video" />
 
 </FrameLayout>

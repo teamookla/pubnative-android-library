@@ -4,11 +4,10 @@
     android:layout_height="match_parent"
     android:background="@color/pn_background" >
 
-    <include
+    <net.pubnative.interstitials.widget.InterstitialView
         android:id="@+id/view_holder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        layout="@layout/pn_view_back_promo" />
+        android:layout_height="match_parent" />
 
     <include
         android:layout_width="match_parent"

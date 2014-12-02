@@ -21,6 +21,7 @@
  */
 package net.pubnative.library;
 
+
 public interface PubNativeListener {
 
 	void onLoaded();

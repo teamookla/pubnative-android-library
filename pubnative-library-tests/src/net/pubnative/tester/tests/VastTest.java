@@ -22,12 +22,14 @@
 package net.pubnative.tester.tests;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import net.pubnative.library.vast.VastAd;
 import net.pubnative.library.vast.VastAd.Creative;
 import net.pubnative.library.vast.VastAd.Creative.MediaFile;
 import net.pubnative.library.vast.VastParser;
-import net.pubnative.tester.tests.R;
+
 import org.w3c.dom.Node;
+
 import android.test.AndroidTestCase;
 
 public class VastTest extends AndroidTestCase {
@@ -42,12 +44,8 @@ public class VastTest extends AndroidTestCase {
 				ad.impressionUrl);
 		assertFalse(ad.creatives.isEmpty());
 		Creative c = ad.creatives.get(0);
-		assertEquals(16929219, c.adId);
 		assertEquals("00:00:31", c.duration);
 		assertEquals(10, c.trackingEvents.size());
-		assertEquals(
-				"http://bs.serving-sys.com/BurstingPipe/adServer.bs?cn=isi&pl=VAST&optOut=0&interactionsStr=16929219~~0^Click.Linear.55334985~0~1~1~0~0~55334985~0&pos=2871&ebRandom=1434673444&dg=1777156&ta=-1&sessionid=8798449454214733861&rtu=$$http://www.behindsi.com/?utm_source=Coolshark&utm_medium=Haberturk&utm_campaign=BehindSi$$",
-				c.videoClickUrl);
 		assertEquals(1, c.mediaFiles.size());
 		MediaFile mf = c.mediaFiles.get(0);
 		assertEquals(854, mf.width);
@@ -61,7 +59,7 @@ public class VastTest extends AndroidTestCase {
 				.newInstance()
 				.newDocumentBuilder()
 				.parse(getContext().getResources().openRawResource(
-						R.raw.vast_3_mock)).getFirstChild();
+						R.raw.vast_3_mock));
 		return new VastParser(getContext()).deserialize(node);
 	}
 }

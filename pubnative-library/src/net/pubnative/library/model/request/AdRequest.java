@@ -68,11 +68,15 @@ public class AdRequest implements Serializable {
 	public Uri buildUri() {
 		Uri.Builder bldr = Uri.parse(PubNativeContract.BASE_URL).buildUpon();
 		switch (format) {
+		case IMAGE:
+			bldr.appendPath(PubNativeContract.IMAGE);
+			break;
 		case NATIVE:
 			bldr.appendPath(PubNativeContract.NATIVE);
 			break;
-		case IMAGE:
-			bldr.appendPath(PubNativeContract.IMAGE);
+		case VIDEO:
+			bldr.appendPath(PubNativeContract.NATIVE);
+			bldr.appendPath(PubNativeContract.VIDEO);
 			break;
 		default:
 			throw new IllegalArgumentException(format.toString());

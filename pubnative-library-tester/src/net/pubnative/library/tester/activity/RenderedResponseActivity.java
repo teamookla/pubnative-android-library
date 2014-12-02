@@ -129,6 +129,7 @@ public class RenderedResponseActivity extends AbstractResponseActivity
 		public void onError(Exception ex) {
 			dismissLoading(ex);
 		}
+
 	};
 
 }

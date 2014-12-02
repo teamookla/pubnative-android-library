@@ -22,8 +22,15 @@
 package net.pubnative.library.model.response;
 
 import net.pubnative.library.PubNativeContract;
+import net.pubnative.library.vast.VastAd;
 
 import org.droidparts.annotation.serialize.JSON;
+import org.droidparts.model.Model;
+import org.droidparts.persist.serializer.XMLSerializer;
+import org.droidparts.util.L;
+import org.w3c.dom.Node;
+
+import android.content.Context;
 
 public class NativeAd extends Ad implements
 		PubNativeContract.Response.NativeFormat {
@@ -42,9 +49,6 @@ public class NativeAd extends Ad implements
 	public String bannerUrl;
 	@JSON(key = PORTRAIT_BANNER_URL)
 	public String portraitBannerUrl;
-
-	@JSON(key = VIDEO_URL)
-	public String videoUrl;
 
 	@JSON(key = CTA_TEXT)
 	public String ctaText;
@@ -79,5 +83,49 @@ public class NativeAd extends Ad implements
 	public String subCategory;
 	@JSON(key = APP_DETAILS + JSON.SUB + STORE_URL, optional = true)
 	public String storeUrl;
+
+	@JSON(key = VAST, optional = true)
+	private Vast[] vastAds;
+
+	public VastAd getVastAd(Context ctx) {
+		if (vastAds.length == 1) {
+			String txt = vastAds[0].ad;
+			try {
+				Node doc = XMLSerializer.parseDocument(txt).getFirstChild();
+				return new XMLSerializer<VastAd>(VastAd.class, ctx)
+						.deserialize(doc);
+			} catch (Exception e) {
+				L.wtf(e);
+			}
+		}
+		return null;
+	}
+
+	public int getVideoSkipTime() {
+		if (vastAds.length == 1) {
+			return vastAds[0].videoSkipTime;
+		} else {
+			return -1;
+		}
+	}
+
+	public String getVideoSkipButton() {
+		if (vastAds.length == 1) {
+			return vastAds[0].videoSkipButton;
+		} else {
+			return null;
+		}
+	}
+
+	public static class Vast extends Model {
+		private static final long serialVersionUID = 1L;
+
+		@JSON(key = AD)
+		public String ad;
+		@JSON(key = VIDEO_SKIP_TIME)
+		public int videoSkipTime;
+		@JSON(key = SKIP_VIDEO_BUTTON)
+		public String videoSkipButton;
+	}
 
 }
