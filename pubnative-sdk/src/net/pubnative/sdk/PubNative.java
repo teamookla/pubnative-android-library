@@ -67,7 +67,9 @@ public class PubNative {
 	public static void showAd(String appToken, AdHolder<?>... holders) {
 		AdRequest req = null;
 		if (holders.length > 0) {
+			ctx = holders[0].getView().getContext().getApplicationContext();
 			req = new AdRequest(appToken, holders[0].getFormat());
+			req.fillInDefaults(ctx);
 			req.setAdCount(holders.length);
 		}
 		showAd(req, holders);
