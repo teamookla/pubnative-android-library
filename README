@@ -31,3 +31,7 @@ Receives lifecycle callbacks.
 * void onLoaded();
 * void onError(Exception ex);
 Use PubNative.setListener(PubNativeListener listener) to register it.
+
+ProGuard
+--------
+If using ProGuard, please include pubnative-proguard.cfg.
