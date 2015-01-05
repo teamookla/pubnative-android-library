@@ -149,6 +149,9 @@ public class PubNative {
 						holder.ad = (T) result.get(i);
 						processAd(holder);
 					}
+					for (int i = result.size(); i < holders.length; i++) {
+						setInvisible(true, holders[i].getView());
+					}
 				}
 			}
 
