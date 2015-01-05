@@ -23,6 +23,7 @@ package net.pubnative.sdk;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static net.pubnative.sdk.util.ViewUtil.getVisiblePercent;
+import static org.droidparts.util.Strings.isEmpty;
 import static org.droidparts.util.ui.ViewUtils.setInvisible;
 
 import java.util.ArrayList;
@@ -200,6 +201,7 @@ public class PubNative {
 		TextView descriptionView = holder.getView(holder.descriptionViewId);
 		if (descriptionView != null) {
 			descriptionView.setText(holder.ad.description);
+			setInvisible(isEmpty(holder.ad.description), descriptionView);
 		}
 		TextView categoryView = holder.getView(holder.categoryViewId);
 		if (categoryView != null) {
