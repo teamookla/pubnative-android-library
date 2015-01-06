@@ -82,26 +82,43 @@ public class IdUtil {
 		}
 	}
 
-	public static String getAdvertisingId(Context ctx) {
-		try {
-			Class<?> cls = Class
-					.forName("com.google.android.gms.ads.identifier.AdvertisingIdClient");
-			Method m = cls.getMethod("getAdvertisingIdInfo", Context.class);
-			Object adInfo = m.invoke(null, ctx);
-			m = adInfo.getClass().getMethod("isLimitAdTrackingEnabled");
-			boolean trackingLimited = (Boolean) m.invoke(adInfo);
-			if (trackingLimited) {
-				throw new IllegalStateException(
-						"Using ad tracking id prohibited by user.");
-			} else {
-				m = adInfo.getClass().getMethod("getId");
-				return (String) m.invoke(adInfo);
+	public static String getAdvertisingId(final Context ctx) {
+		if (adInfo == null) {
+			new Thread() {
+				@Override
+				public void run() {
+					try {
+						Class<?> cls = Class
+								.forName("com.google.android.gms.ads.identifier.AdvertisingIdClient");
+						Method m = cls.getMethod("getAdvertisingIdInfo",
+								Context.class);
+						adInfo = m.invoke(null, ctx);
+					} catch (Exception e) {
+						L.v(e);
+					}
+				}
+			}.start();
+		} else {
+			try {
+				Method m = adInfo.getClass().getMethod(
+						"isLimitAdTrackingEnabled");
+				boolean trackingLimited = (Boolean) m.invoke(adInfo);
+				if (trackingLimited) {
+					throw new IllegalStateException(
+							"Using ad tracking id prohibited by user.");
+				} else {
+					m = adInfo.getClass().getMethod("getId");
+					return (String) m.invoke(adInfo);
+				}
+			} catch (Exception e) {
+				L.v(e);
 			}
-		} catch (Exception e) {
-			L.v(e);
-			return "";
+
 		}
+		return "";
 	}
+
+	private static Object adInfo;
 
 	public static Location getLastLocation(Context ctx) {
 		LocationManager lm = (LocationManager) ctx
