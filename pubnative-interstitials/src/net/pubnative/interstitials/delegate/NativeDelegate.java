@@ -3,7 +3,7 @@ package net.pubnative.interstitials.delegate;
 import net.pubnative.interstitials.PubNativeInterstitialsActivity;
 import net.pubnative.interstitials.api.PubNativeInterstitialsType;
 import net.pubnative.interstitials.delegate.adapter.NativeAdHolderAdapter;
-import net.pubnative.sdk.model.holder.NativeAdHolder;
+import net.pubnative.library.model.holder.NativeAdHolder;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;

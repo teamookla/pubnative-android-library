@@ -4,7 +4,7 @@ import net.pubnative.interstitials.PubNativeInterstitialsActivity;
 import net.pubnative.interstitials.R;
 import net.pubnative.interstitials.api.PubNativeInterstitialsType;
 import net.pubnative.interstitials.widget.AdCarouselView;
-import net.pubnative.sdk.model.holder.NativeAdHolder;
+import net.pubnative.library.model.holder.NativeAdHolder;
 
 import org.droidparts.adapter.widget.ArrayAdapter;
 import org.droidparts.util.ui.ViewUtils;

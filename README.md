@@ -1,6 +1,6 @@
-![ScreenShot](https://github.com/pubnative/pubnative-ios-demo/blob/master/PubNativeLibrary/Images.xcassets/PNLogo.png)
+![ScreenShot](https://github.com/pubnative/pubnative-ios-library/blob/master/PNLogo.png)
 
-PubNative is an API-based publisher platform dedicated to native advertising which does not require the integration of an SDK.
+PubNative is an API-based publisher platform dedicated to native advertising which does not require the integration of an Library.
 Through PubNative, publishers can request over 20 parameters to enrich their ads and thereby create any number of combinations for unique and truly native ad units.
 
 PubNative Android Library simplifies getting ad images, texts and sending confirmation.\n
@@ -20,12 +20,12 @@ Requirements
 Getting Started
 ===============
 Clone the repository and import
-* pubnative-sdk if you need to create custom ad views
+* pubnative-library if you need to create custom ad views
 * pubnative-interstitials to use the pre-built formats.
 
-PubNative SDK
+PubNative Library
 =============
-PubNative SDK provides a simple Java API to get, show and confirm ads.\n
+PubNative Library provides a simple Java API to get, show and confirm ads.\n
 The basic principle is that you create special objects containing references to Views that should be populated (e.g. banner image, app title, etc.) and ask PubNative to fill them.
 After the Views are filled in and displayed, an impression confirmation is to PubNative server.
 Then you need to handle a click on the View, but there's a helper for that.
@@ -77,7 +77,7 @@ Advanced NativeAd Example
    Use setParam(String key, String val) to set any custom values.
 3. Call PubNative.showAd(AdRequest req, AdHolder<?>... holders).
 
-For more examples, examine the code of pubnative-sdk-tester.
+For more examples, examine the code of pubnative-library-tester.
 
 Pubnative Interstitials
 =======================

@@ -5,7 +5,7 @@ import net.pubnative.interstitials.PubNativeInterstitialsActivity;
 import net.pubnative.interstitials.R;
 import net.pubnative.interstitials.api.PubNativeInterstitialsType;
 import net.pubnative.interstitials.util.ScreenUtil;
-import net.pubnative.sdk.model.holder.NativeAdHolder;
+import net.pubnative.library.model.holder.NativeAdHolder;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
