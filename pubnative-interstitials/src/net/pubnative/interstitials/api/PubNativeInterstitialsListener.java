@@ -1,6 +1,6 @@
 package net.pubnative.interstitials.api;
 
-import net.pubnative.sdk.model.response.NativeAd;
+import net.pubnative.library.model.response.NativeAd;
 
 public interface PubNativeInterstitialsListener {
 

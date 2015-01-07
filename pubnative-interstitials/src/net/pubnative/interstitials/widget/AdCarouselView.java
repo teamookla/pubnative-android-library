@@ -3,7 +3,7 @@ package net.pubnative.interstitials.widget;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import net.pubnative.interstitials.R;
-import net.pubnative.sdk.model.holder.NativeAdHolder;
+import net.pubnative.library.model.holder.NativeAdHolder;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;

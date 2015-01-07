@@ -11,7 +11,7 @@ import net.pubnative.interstitials.contract.PubNativeInterstitialsConstants;
 import net.pubnative.interstitials.logging.EventData;
 import net.pubnative.interstitials.logging.EventLogger;
 import net.pubnative.interstitials.tester.DialogFactory.SettingsDialogListener;
-import net.pubnative.sdk.model.response.NativeAd;
+import net.pubnative.library.model.response.NativeAd;
 
 import org.droidparts.activity.legacy.Activity;
 import org.droidparts.annotation.inject.InjectView;

@@ -19,48 +19,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.pubnative.interstitials.delegate.adapter;
+package net.pubnative.library.task;
 
-import net.pubnative.interstitials.R;
-import net.pubnative.library.model.holder.NativeAdHolder;
+import net.pubnative.library.model.request.AdRequest;
 
-import org.droidparts.adapter.widget.ArrayAdapter;
+import org.droidparts.concurrent.task.AsyncTaskResultListener;
+import org.droidparts.concurrent.task.SimpleAsyncTask;
+import org.droidparts.net.http.RESTClient2;
+import org.json.JSONObject;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
-public class NativeAdHolderAdapter extends ArrayAdapter<NativeAdHolder> {
+public class GetAdsJSONTask extends SimpleAsyncTask<JSONObject> {
 
-	public NativeAdHolderAdapter(Context ctx) {
-		super(ctx);
-	}
+	private final AdRequest adRequest;
+	private final RESTClient2 restClient;
 
-	public NativeAdHolder makeAndAddHolder() {
-		View view = LayoutInflater.from(getContext()).inflate(getLayoutId(),
-				null);
-		NativeAdHolder h = new NativeAdHolder(view);
-		h.iconViewId = R.id.view_icon;
-		h.titleViewId = R.id.view_title;
-		h.subTitleViewId = R.id.view_description;
-		h.ratingViewId = R.id.view_rating;
-		h.descriptionViewId = R.id.view_description;
-		h.categoryViewId = R.id.view_category;
-		h.bannerViewId = R.id.view_banner;
-		h.textureViewId = R.id.view_video;
-		h.downloadViewId = R.id.view_download;
-		add(h);
-		return h;
+	public GetAdsJSONTask(Context ctx, AdRequest adRequest,
+			AsyncTaskResultListener<JSONObject> resultListener) {
+		super(ctx, resultListener);
+		this.adRequest = adRequest;
+		restClient = new RESTClient2(ctx);
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		return getItem(position).getView();
-	}
-
-	protected int getLayoutId() {
-		return R.layout.pn_view_row_native_delegate;
+	protected JSONObject onExecute() throws Exception {
+		JSONObject resp = restClient.getJSONObject(adRequest.buildUri()
+				.toString());
+		return resp;
 	}
 
 }

@@ -19,48 +19,46 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package net.pubnative.interstitials.delegate.adapter;
+package net.pubnative.library.util;
 
-import net.pubnative.interstitials.R;
-import net.pubnative.library.model.holder.NativeAdHolder;
-
-import org.droidparts.adapter.widget.ArrayAdapter;
+import org.droidparts.net.image.AbstractImageReshaper;
 
 import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.graphics.Bitmap;
+import android.util.DisplayMetrics;
 
-public class NativeAdHolderAdapter extends ArrayAdapter<NativeAdHolder> {
+public class DensityReshaper extends AbstractImageReshaper {
 
-	public NativeAdHolderAdapter(Context ctx) {
-		super(ctx);
-	}
+	private final float ratio;
 
-	public NativeAdHolder makeAndAddHolder() {
-		View view = LayoutInflater.from(getContext()).inflate(getLayoutId(),
-				null);
-		NativeAdHolder h = new NativeAdHolder(view);
-		h.iconViewId = R.id.view_icon;
-		h.titleViewId = R.id.view_title;
-		h.subTitleViewId = R.id.view_description;
-		h.ratingViewId = R.id.view_rating;
-		h.descriptionViewId = R.id.view_description;
-		h.categoryViewId = R.id.view_category;
-		h.bannerViewId = R.id.view_banner;
-		h.textureViewId = R.id.view_video;
-		h.downloadViewId = R.id.view_download;
-		add(h);
-		return h;
+	/**
+	 * @see DisplayMetrics
+	 */
+	public DensityReshaper(Context ctx, int baseDensityDpi) {
+		ratio = (float) ctx.getResources().getDisplayMetrics().densityDpi
+				/ baseDensityDpi;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		return getItem(position).getView();
+	public Bitmap reshape(Bitmap bm) {
+		int w = (int) (bm.getWidth() * ratio);
+		int h = (int) (bm.getHeight() * ratio);
+		return Bitmap.createScaledBitmap(bm, w, h, true);
 	}
 
-	protected int getLayoutId() {
-		return R.layout.pn_view_row_native_delegate;
+	@Override
+	public String getCacheId() {
+		return "x" + ratio;
+	}
+
+	@Override
+	public int getImageHeightHint() {
+		return 0;
+	}
+
+	@Override
+	public int getImageWidthHint() {
+		return 0;
 	}
 
 }
