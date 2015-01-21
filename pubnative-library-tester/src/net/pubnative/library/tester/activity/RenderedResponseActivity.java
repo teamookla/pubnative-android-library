@@ -21,10 +21,6 @@
  */
 package net.pubnative.library.tester.activity;
 
-import net.pubnative.library.tester.R;
-import net.pubnative.library.tester.adapter.AbstractAdHolderAdapter;
-import net.pubnative.library.tester.adapter.ImageAdAdapter;
-import net.pubnative.library.tester.adapter.NativeAdAdapter;
 import net.pubnative.library.PubNative;
 import net.pubnative.library.PubNativeContract;
 import net.pubnative.library.PubNativeListener;
@@ -32,6 +28,10 @@ import net.pubnative.library.model.AdFormat;
 import net.pubnative.library.model.holder.AdHolder;
 import net.pubnative.library.model.request.AdRequest;
 import net.pubnative.library.model.response.Ad;
+import net.pubnative.library.tester.R;
+import net.pubnative.library.tester.adapter.AbstractAdHolderAdapter;
+import net.pubnative.library.tester.adapter.ImageAdAdapter;
+import net.pubnative.library.tester.adapter.NativeAdAdapter;
 
 import org.droidparts.annotation.inject.InjectView;
 
@@ -87,7 +87,7 @@ public class RenderedResponseActivity extends AbstractResponseActivity
 		PubNative.setListener(listener);
 		PubNative.showAd(req, holders);
 	}
- 
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -99,7 +99,7 @@ public class RenderedResponseActivity extends AbstractResponseActivity
 		super.onResume();
 		PubNative.onResume();
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();

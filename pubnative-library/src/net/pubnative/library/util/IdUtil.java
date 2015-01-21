@@ -30,46 +30,17 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.telephony.TelephonyManager;
 import android.webkit.WebView;
 
 public class IdUtil {
 
-	public static String getIMEI(Context ctx) {
-		String imei = null;
-		try {
-			TelephonyManager tm = (TelephonyManager) ctx
-					.getSystemService(Context.TELEPHONY_SERVICE);
-			imei = tm.getDeviceId();
-		} catch (Exception e) {
-			L.w(e);
-		}
-		return (imei != null) ? imei : "";
-	}
-
-	public static String getMacAddress(Context ctx) {
-		String mac = null;
-		try {
-			WifiManager wifiMan = (WifiManager) ctx
-					.getSystemService(Context.WIFI_SERVICE);
-			WifiInfo wifiInf = wifiMan.getConnectionInfo();
-			mac = wifiInf.getMacAddress();
-		} catch (Exception e) {
-			L.w(e);
-		}
-		return (mac != null) ? mac : "";
+	public interface Callback {
+		void didGetAdvId(String advId);
 	}
 
 	public static String getPackageName(Context ctx) {
 		PackageInfo pInfo = getPackageInfo(ctx);
 		return (pInfo != null) ? pInfo.packageName : "";
-	}
-
-	public static String getVersionName(Context ctx) {
-		PackageInfo pInfo = getPackageInfo(ctx);
-		return (pInfo != null) ? pInfo.versionName : "";
 	}
 
 	private static PackageInfo getPackageInfo(Context ctx) {
@@ -82,43 +53,25 @@ public class IdUtil {
 		}
 	}
 
-	public static String getAdvertisingId(final Context ctx) {
-		if (adInfo == null) {
-			new Thread() {
-				@Override
-				public void run() {
-					try {
-						Class<?> cls = Class
-								.forName("com.google.android.gms.ads.identifier.AdvertisingIdClient");
-						Method m = cls.getMethod("getAdvertisingIdInfo",
-								Context.class);
-						adInfo = m.invoke(null, ctx);
-					} catch (Exception e) {
-						L.v(e);
-					}
-				}
-			}.start();
-		} else {
-			try {
-				Method m = adInfo.getClass().getMethod(
-						"isLimitAdTrackingEnabled");
-				boolean trackingLimited = (Boolean) m.invoke(adInfo);
-				if (trackingLimited) {
-					throw new IllegalStateException(
-							"Using ad tracking id prohibited by user.");
-				} else {
+	public static void getAdvertisingId(final Context ctx, final Callback call) {
+		new Thread() {
+			@Override
+			public void run() {
+				try {
+					Class<?> cls = Class
+							.forName("com.google.android.gms.ads.identifier.AdvertisingIdClient");
+					Method m = cls.getMethod("getAdvertisingIdInfo",
+							Context.class);
+					Object adInfo = m.invoke(null, ctx);
 					m = adInfo.getClass().getMethod("getId");
-					return (String) m.invoke(adInfo);
+					String advId = (String) m.invoke(adInfo);
+					call.didGetAdvId(advId);
+				} catch (Exception e) {
+					L.v(e);
 				}
-			} catch (Exception e) {
-				L.v(e);
 			}
-
-		}
-		return "";
+		}.start();
 	}
-
-	private static Object adInfo;
 
 	public static Location getLastLocation(Context ctx) {
 		LocationManager lm = (LocationManager) ctx

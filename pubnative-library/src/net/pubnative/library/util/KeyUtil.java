@@ -21,10 +21,7 @@
  */
 package net.pubnative.library.util;
 
-import static org.droidparts.util.Strings.getMD5;
-import static org.droidparts.util.Strings.getSHA1;
 import static org.droidparts.util.Strings.isEmpty;
-import static org.droidparts.util.Strings.isNotEmpty;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -32,6 +29,7 @@ import java.util.Locale;
 
 import net.pubnative.library.PubNativeContract.RequestInfo;
 import net.pubnative.library.PubNativeContract.UserIdentifier;
+import net.pubnative.library.util.IdUtil.Callback;
 
 import org.droidparts.util.L;
 
@@ -66,11 +64,7 @@ public class KeyUtil {
 		return keys;
 	}
 
-	public static String getDefaultVal(Context ctx, String key) {
-		String mac = IdUtil.getMacAddress(ctx);
-		String imei = IdUtil.getIMEI(ctx);
-		String advId = IdUtil.getAdvertisingId(ctx);
-		Location loc = IdUtil.getLastLocation(ctx);
+	public static String putDefaultVal(Context ctx, String key) {
 		switch (key) {
 		case RequestInfo.BUNDLE_ID:
 			return IdUtil.getPackageName(ctx);
@@ -90,45 +84,44 @@ public class KeyUtil {
 		case RequestInfo.DEVICE_TYPE:
 			return getSW(ctx) < 600 ? "phone" : "tablet";
 		case RequestInfo.LAT:
-			return (loc != null) ? String.valueOf(loc.getLatitude()) : null;
+			Location lat = IdUtil.getLastLocation(ctx);
+			return (lat != null) ? String.valueOf(lat.getLatitude()) : null;
 		case RequestInfo.LONG:
-			return (loc != null) ? String.valueOf(loc.getLongitude()) : null;
-		case UserIdentifier.MAC_ADDRESS:
-			return mac;
-		case UserIdentifier.MAC_ADDRESS_SHA1:
-			return sha1(mac);
-		case UserIdentifier.MAC_ADDRESS_MD5:
-			return md5(mac);
-		case UserIdentifier.ANDROID_IMEI:
-			return imei;
-		case UserIdentifier.ANDROID_IMEI_SHA1:
-			return sha1(imei);
-		case UserIdentifier.ANDROID_IMEI_MD5:
-			return md5(imei);
+			Location lon = IdUtil.getLastLocation(ctx);
+			return (lon != null) ? String.valueOf(lon.getLongitude()) : null;
 		case UserIdentifier.ANDROID_ADVERTISER_ID:
-			return advId;
-		case UserIdentifier.ANDROID_ADVERTISER_ID_SHA1:
-			return sha1(advId);
-		case UserIdentifier.ANDROID_ADVERTISER_ID_MD5:
-			return md5(advId);
+			return getAdvId(ctx);
 		case UserIdentifier.NO_USER_ID:
-			return isEmpty(advId) ? "1" : "0";
+			return isEmpty(getAdvId(ctx)) ? "1" : "0";
 		default:
 			return null;
 		}
 	}
 
+	private static String getAdvId(Context ctx) {
+		PrefsManager pm = new PrefsManager(ctx);
+		String advId = pm.getAdvId();
+		if (isEmpty(advId)) {
+			KeyUtil.pm = pm;
+			IdUtil.getAdvertisingId(ctx, cb);
+		}
+		return advId;
+	}
+
+	private static PrefsManager pm;
+	private static Callback cb = new Callback() {
+
+		@Override
+		public void didGetAdvId(String advId) {
+			pm.setAdvId(advId);
+		}
+	};
+
+	//
+
 	private static int getSW(Context ctx) {
 		DisplayMetrics dm = ctx.getResources().getDisplayMetrics();
 		return (int) (Math.min(dm.widthPixels, dm.heightPixels) / dm.density);
-	}
-
-	private static String sha1(String str) {
-		return isNotEmpty(str) ? getSHA1(str) : "";
-	}
-
-	private static String md5(String str) {
-		return isNotEmpty(str) ? getMD5(str) : "";
 	}
 
 	private KeyUtil() {

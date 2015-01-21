@@ -46,7 +46,7 @@ public class AdRequest implements Serializable {
 
 	public void fillInDefaults(Context ctx) {
 		for (String key : KeyUtil.getAdRequestKeys()) {
-			String val = KeyUtil.getDefaultVal(ctx, key);
+			String val = KeyUtil.putDefaultVal(ctx, key);
 			if (val != null) {
 				params.put(key, val);
 			}
