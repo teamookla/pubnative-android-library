@@ -21,6 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="▶︎"
-        android:textSize="80sp" />
+        android:textSize="80dp" />
 
 </FrameLayout>
