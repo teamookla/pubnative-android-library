@@ -61,9 +61,11 @@ public class InterstitialView extends LinearLayout {
 		applyOrientation();
 	}
 
-	//
-
-	private ImageView landscapeImageView, portraitGameImageView;
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		applyOrientation();
+	}
 
 	private void applyOrientation() {
 		boolean port = ScreenUtil.isPortrait(getContext());
@@ -71,5 +73,7 @@ public class InterstitialView extends LinearLayout {
 		setGone(port, portraitGameImageView);
 		setGone(!port, landscapeImageView);
 	}
+
+	private ImageView landscapeImageView, portraitGameImageView;
 
 }
