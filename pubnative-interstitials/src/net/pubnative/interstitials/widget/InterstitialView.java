@@ -27,10 +27,14 @@ import net.pubnative.interstitials.util.ScreenUtil;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 public class InterstitialView extends LinearLayout {
+
+	private ImageView landscapeImageView, portraitImageView;
+	private boolean loaded = false;
 
 	public InterstitialView(Context ctx) {
 		super(ctx);
@@ -50,14 +54,8 @@ public class InterstitialView extends LinearLayout {
 	private void init() {
 		inflate(getContext(), R.layout.pn_view_interstitial, this);
 		landscapeImageView = (ImageView) findViewById(R.id.view_game_image);
-		portraitGameImageView = (ImageView) findViewById(R.id.view_game_image_portrait);
+		portraitImageView = (ImageView) findViewById(R.id.view_game_image_portrait);
 		setBackgroundColor(getResources().getColor(android.R.color.white));
-		applyOrientation();
-	}
-
-	@Override
-	protected void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
 		applyOrientation();
 	}
 
@@ -67,13 +65,45 @@ public class InterstitialView extends LinearLayout {
 		applyOrientation();
 	}
 
-	private void applyOrientation() {
-		boolean port = ScreenUtil.isPortrait(getContext());
-		setOrientation(port ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
-		setGone(port, portraitGameImageView);
-		setGone(!port, landscapeImageView);
+	@Override
+	protected void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		applyOrientation();
 	}
 
-	private ImageView landscapeImageView, portraitGameImageView;
+	public void setImagesLoaded() {
+		loaded = true;
+		applyOrientation();
+	}
 
+	private void applyOrientation() {
+		boolean port = ScreenUtil.isPortrait(getContext());
+		if (loaded) {
+			View container = findViewById(R.id.view_interstitial_1_container);
+			container.setLayoutParams(new LayoutParams(
+					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+			View descriptionView = findViewById(R.id.view_description);
+			setGone(false, descriptionView);
+			boolean swap = false;
+			boolean gotLandscapeImage = (landscapeImageView.getDrawable() != null);
+			boolean gotPortraitImage = (portraitImageView.getDrawable() != null);
+			if (port) {
+				swap = (gotPortraitImage && !gotLandscapeImage);
+			} else {
+				swap = (gotLandscapeImage && !gotPortraitImage);
+				if (swap) {
+					setGone(true, descriptionView);
+					container.setLayoutParams(new LayoutParams(
+							LayoutParams.MATCH_PARENT,
+							LayoutParams.WRAP_CONTENT));
+				}
+			}
+			if (swap) {
+				port = !port;
+			}
+		}
+		setOrientation(port ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
+		setGone(port, portraitImageView);
+		setGone(!port, landscapeImageView);
+	}
 }

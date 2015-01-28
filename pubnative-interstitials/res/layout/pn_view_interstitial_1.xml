@@ -5,12 +5,14 @@
         android:id="@+id/view_game_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true" />
 
     <ImageView
         android:id="@+id/view_game_image_portrait"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true" />
 
 </merge>
