@@ -7,12 +7,14 @@
     <TextureView
         android:id="@+id/view_video"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
     <ImageView
         android:id="@+id/view_banner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:adjustViewBounds="true" />
 
     <TextView
