@@ -420,7 +420,7 @@ public class PubNativeWorker {
 									wi.preparing = true;
 									wi.mp.prepareAsync();
 								} else if (wi.prepared && !wi.mp.isPlaying()) {
-									if (wi.inFeed()) {
+									if (wi.inFeedVideo()) {
 										wi.mp.start();
 									}
 								}

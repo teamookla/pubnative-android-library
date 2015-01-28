@@ -46,9 +46,9 @@ public class WorkerItem<T extends AdHolder<?>> {
 		return (mp != null && mp.isPlaying());
 	}
 
-	boolean inFeed() {
+	boolean inFeedVideo() {
 		if (holder instanceof VideoAdHolder) {
-			return (holder.getView(((VideoAdHolder) holder).playButtonViewId) == null);
+			return (((VideoAdHolder) holder).playButtonViewId) <= 0;
 		}
 		return false;
 	}
