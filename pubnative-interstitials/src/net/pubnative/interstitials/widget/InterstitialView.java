@@ -34,7 +34,6 @@ import android.widget.LinearLayout;
 public class InterstitialView extends LinearLayout {
 
 	private ImageView landscapeImageView, portraitImageView;
-	private boolean loaded = false;
 
 	public InterstitialView(Context ctx) {
 		super(ctx);
@@ -56,7 +55,6 @@ public class InterstitialView extends LinearLayout {
 		landscapeImageView = (ImageView) findViewById(R.id.view_game_image);
 		portraitImageView = (ImageView) findViewById(R.id.view_game_image_portrait);
 		setBackgroundColor(getResources().getColor(android.R.color.white));
-		applyOrientation();
 	}
 
 	@Override
@@ -71,36 +69,28 @@ public class InterstitialView extends LinearLayout {
 		applyOrientation();
 	}
 
-	public void setImagesLoaded() {
-		loaded = true;
-		applyOrientation();
-	}
-
 	private void applyOrientation() {
 		boolean port = ScreenUtil.isPortrait(getContext());
-		if (loaded) {
-			View container = findViewById(R.id.view_interstitial_1_container);
-			container.setLayoutParams(new LayoutParams(
-					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-			View descriptionView = findViewById(R.id.view_description);
-			setGone(false, descriptionView);
-			boolean swap = false;
-			boolean gotLandscapeImage = (landscapeImageView.getDrawable() != null);
-			boolean gotPortraitImage = (portraitImageView.getDrawable() != null);
-			if (port) {
-				swap = (gotPortraitImage && !gotLandscapeImage);
-			} else {
-				swap = (gotLandscapeImage && !gotPortraitImage);
-				if (swap) {
-					setGone(true, descriptionView);
-					container.setLayoutParams(new LayoutParams(
-							LayoutParams.MATCH_PARENT,
-							LayoutParams.WRAP_CONTENT));
-				}
-			}
+		View container = findViewById(R.id.view_interstitial_1_container);
+		container.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+				LayoutParams.WRAP_CONTENT));
+		View descriptionView = findViewById(R.id.view_description);
+		setGone(false, descriptionView);
+		boolean swap = false;
+		boolean gotLandscapeImage = (landscapeImageView.getDrawable() != null);
+		boolean gotPortraitImage = (portraitImageView.getDrawable() != null);
+		if (port) {
+			swap = (gotPortraitImage && !gotLandscapeImage);
+		} else {
+			swap = (gotLandscapeImage && !gotPortraitImage);
 			if (swap) {
-				port = !port;
+				setGone(true, descriptionView);
+				container.setLayoutParams(new LayoutParams(
+						LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 			}
+		}
+		if (swap) {
+			port = !port;
 		}
 		setOrientation(port ? LinearLayout.VERTICAL : LinearLayout.HORIZONTAL);
 		setGone(port, portraitImageView);

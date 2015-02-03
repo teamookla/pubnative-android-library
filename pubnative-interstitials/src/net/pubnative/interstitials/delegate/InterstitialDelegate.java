@@ -24,7 +24,6 @@ package net.pubnative.interstitials.delegate;
 import net.pubnative.interstitials.PubNativeInterstitialsActivity;
 import net.pubnative.interstitials.R;
 import net.pubnative.interstitials.api.PubNativeInterstitialsType;
-import net.pubnative.interstitials.widget.InterstitialView;
 import net.pubnative.library.model.holder.NativeAdHolder;
 import android.view.View;
 
@@ -77,12 +76,6 @@ public class InterstitialDelegate extends AbstractDelegate {
 		} else {
 			super.onClick(v);
 		}
-	}
-
-	@Override
-	public void onLoadingDone() {
-		super.onLoadingDone();
-		((InterstitialView) holderView).setImagesLoaded();
 	}
 
 }
