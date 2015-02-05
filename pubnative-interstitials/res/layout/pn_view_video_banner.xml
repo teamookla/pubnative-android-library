@@ -23,6 +23,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="▶︎"
-        android:textSize="80dp" />
+        android:textSize="@dimen/play_button_size" />
 
 </FrameLayout>

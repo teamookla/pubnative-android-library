@@ -46,6 +46,8 @@ public class VideoPopup extends PopupWindow implements View.OnClickListener {
 		void didVideoPopupShare(VideoPopup vp, WorkerItem<?> wi);
 
 		void didVideoPopupSkip(VideoPopup vp, WorkerItem<?> wi);
+
+		void didVideoPopupDismiss(WorkerItem<?> wi, TextureView parentTv);
 	}
 
 	private final WorkerItem<VideoAdHolder> wi;
@@ -110,11 +112,7 @@ public class VideoPopup extends PopupWindow implements View.OnClickListener {
 	@Override
 	public void dismiss() {
 		handler.removeMessages(0);
-		if (parentTv != null) {
-			ViewUtil.setSurface(wi.mp, parentTv);
-		} else {
-			wi.mp.stop();
-		}
+		l.didVideoPopupDismiss(wi, parentTv);
 		super.dismiss();
 	}
 

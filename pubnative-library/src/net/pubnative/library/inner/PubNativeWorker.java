@@ -535,6 +535,18 @@ public class PubNativeWorker {
 			PubNative.showInPlayStoreViaDialog((Activity) wi.getContext(),
 					wi.holder.ad);
 		}
+
+		@Override
+		public void didVideoPopupDismiss(
+				net.pubnative.library.inner.WorkerItem<?> wi,
+				TextureView parentTv) {
+			if (parentTv != null) {
+				ViewUtil.setSurface(wi.mp, parentTv);
+			} else {
+				wi.mp.stop();
+			}
+		}
+
 	};
 
 }

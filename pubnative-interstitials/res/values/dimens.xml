@@ -2,4 +2,6 @@
 <resources>    
     <dimen name="pn_game_row_padding">5dp</dimen>
     <dimen name="icon_size">64dp</dimen>
+    <dimen name="play_button_size">80dp</dimen>
+    
 </resources>
