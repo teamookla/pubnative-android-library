@@ -43,7 +43,7 @@ import android.widget.TextView;
 public class VideoPopup extends PopupWindow implements View.OnClickListener {
 
 	public interface Listener {
-		void didVideoPopupShare(VideoPopup vp, WorkerItem<?> wi);
+		void didVideoPopupClose(VideoPopup vp, WorkerItem<?> wi);
 
 		void didVideoPopupSkip(VideoPopup vp, WorkerItem<?> wi);
 
@@ -59,7 +59,7 @@ public class VideoPopup extends PopupWindow implements View.OnClickListener {
 
 	private final TextureView tv;
 	private final ImageView muteView;
-	private final ImageView shareView;
+	private final ImageView closeView;
 	private final TextView skipButtonView;
 	private final CountDownView countDownView;
 
@@ -81,11 +81,11 @@ public class VideoPopup extends PopupWindow implements View.OnClickListener {
 		handler = new Handler();
 		tv = findViewById(rootView, R.id.view_texture);
 		muteView = findViewById(rootView, R.id.view_mute);
-		shareView = findViewById(rootView, R.id.view_share);
+		closeView = findViewById(rootView, R.id.view_close);
 		skipButtonView = findViewById(rootView, R.id.view_skip);
 		countDownView = findViewById(rootView, R.id.view_count_down);
 		//
-		shareView.setOnClickListener(this);
+		closeView.setOnClickListener(this);
 		muteView.setOnClickListener(this);
 		setMuted(false);
 		skipButtonView.setOnClickListener(this);
@@ -120,8 +120,8 @@ public class VideoPopup extends PopupWindow implements View.OnClickListener {
 	public void onClick(View v) {
 		if (v == muteView) {
 			setMuted(!muted);
-		} else if (v == shareView) {
-			l.didVideoPopupShare(this, wi);
+		} else if (v == closeView) {
+			l.didVideoPopupClose(this, wi);
 		} else if (v == skipButtonView) {
 			l.didVideoPopupSkip(this, wi);
 		}
