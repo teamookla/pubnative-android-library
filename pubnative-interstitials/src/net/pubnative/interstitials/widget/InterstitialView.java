@@ -70,15 +70,18 @@ public class InterstitialView extends LinearLayout {
 	}
 
 	private void applyOrientation() {
-		boolean port = ScreenUtil.isPortrait(getContext());
 		View container = findViewById(R.id.view_interstitial_1_container);
 		container.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 				LayoutParams.WRAP_CONTENT));
 		View descriptionView = findViewById(R.id.view_description);
 		setGone(false, descriptionView);
-		boolean swap = false;
 		boolean gotLandscapeImage = (landscapeImageView.getDrawable() != null);
 		boolean gotPortraitImage = (portraitImageView.getDrawable() != null);
+		// XXX OpenRTB hack
+		gotPortraitImage = false;
+		// XXX OpenRTB hack
+		boolean port = ScreenUtil.isPortrait(getContext());
+		boolean swap = false;
 		if (port) {
 			swap = (gotPortraitImage && !gotLandscapeImage);
 		} else {
