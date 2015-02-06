@@ -37,6 +37,7 @@ public class WorkerItem<T extends AdHolder<?>> {
 	public boolean preparing;
 	public boolean prepared;
 	public boolean played;
+	public boolean fullScreen;
 
 	WorkerItem(T holder) {
 		this.holder = holder;

@@ -350,6 +350,7 @@ public class PubNativeWorker {
 			popupView = vah.backViewHolder.getView();
 		}
 		wp.show(parent);
+		wi.fullScreen = true;
 	}
 
 	private static View parentView, popupView;
@@ -420,7 +421,7 @@ public class PubNativeWorker {
 									wi.preparing = true;
 									wi.mp.prepareAsync();
 								} else if (wi.prepared && !wi.mp.isPlaying()) {
-									if (wi.inFeedVideo()) {
+									if (wi.inFeedVideo() || wi.fullScreen) {
 										wi.mp.start();
 									}
 								}
@@ -540,6 +541,7 @@ public class PubNativeWorker {
 		public void didVideoPopupDismiss(
 				net.pubnative.library.inner.WorkerItem<?> wi,
 				TextureView parentTv) {
+			wi.fullScreen = false;
 			if (parentTv != null) {
 				ViewUtil.setSurface(wi.mp, parentTv);
 			} else {
