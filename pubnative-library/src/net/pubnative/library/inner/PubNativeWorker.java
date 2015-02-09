@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import net.pubnative.library.PubNative;
 import net.pubnative.library.PubNativeListener;
 import net.pubnative.library.model.holder.AdHolder;
 import net.pubnative.library.model.holder.ImageAdHolder;
@@ -54,6 +55,7 @@ import org.droidparts.net.image.ImageFetchListener;
 import org.droidparts.net.image.ImageReshaper;
 import org.droidparts.util.L;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.MediaPlayer;
@@ -322,12 +324,11 @@ public class PubNativeWorker {
 			public void onCompletion(MediaPlayer mp) {
 				wi.played = true;
 				setInvisible(false, bannerView);
-				// XXX
 				if (popupView != null) {
-					videoPopupListener.didVideoPopupSkip(new VideoPopup(wi,
-							null, null), wi);
+					new ViewPopup(popupView.getContext(), popupView)
+							.show(parentView);
+					parentView = popupView = null;
 				}
-
 			}
 		});
 		videoView.setOnClickListener(new OnClickListener() {
@@ -518,25 +519,20 @@ public class PubNativeWorker {
 
 		@Override
 		public void didVideoPopupSkip(VideoPopup vp, WorkerItem<?> wi) {
-			vp.dismiss();
+			didVideoPopupClose(vp, wi);
 			wi.mp.stop();
-			if (popupView != null) {
-				new ViewPopup(popupView.getContext(), popupView)
-						.show(parentView);
-				parentView = popupView = null;
-			}
+			PubNative.showInPlayStoreViaDialog((Activity) wi.getContext(),
+					wi.holder.ad);
 		}
 
 		@Override
 		public void didVideoPopupClose(VideoPopup vp, WorkerItem<?> wi) {
+			popupView = parentView = null;
 			vp.dismiss();
-			wi.mp.stop();
 		}
 
 		@Override
-		public void didVideoPopupDismiss(
-				net.pubnative.library.inner.WorkerItem<?> wi,
-				TextureView parentTv) {
+		public void didVideoPopupDismiss(WorkerItem<?> wi, TextureView parentTv) {
 			wi.fullScreen = false;
 			if (parentTv != null) {
 				ViewUtil.setSurface(wi.mp, parentTv);
