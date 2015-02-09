@@ -85,6 +85,7 @@ public class VideoPopup extends PopupWindow implements View.OnClickListener {
 		skipButtonView = findViewById(rootView, R.id.view_skip);
 		countDownView = findViewById(rootView, R.id.view_count_down);
 		//
+		tv.setOnClickListener(this);
 		closeView.setOnClickListener(this);
 		muteView.setOnClickListener(this);
 		setMuted(false);
@@ -122,7 +123,7 @@ public class VideoPopup extends PopupWindow implements View.OnClickListener {
 			setMuted(!muted);
 		} else if (v == closeView) {
 			l.didVideoPopupClose(this, wi);
-		} else if (v == skipButtonView) {
+		} else if (v == tv || v == skipButtonView) {
 			l.didVideoPopupSkip(this, wi);
 		}
 	}
