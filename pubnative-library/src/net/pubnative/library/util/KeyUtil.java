@@ -69,7 +69,10 @@ public class KeyUtil {
 		case RequestInfo.BUNDLE_ID:
 			return IdUtil.getPackageName(ctx);
 		case RequestInfo.USER_AGENT:
-			return IdUtil.getUserAgent(ctx);
+//BEGIN_OOKLA_EDIT
+			//return IdUtil.getUserAgent(ctx);
+                        return null;
+//END_OOKLA_EDIT
 		case RequestInfo.OS:
 			return "android";
 		case RequestInfo.OS_VERSION:
