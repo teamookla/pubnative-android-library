@@ -325,8 +325,7 @@ public class PubNativeWorker {
 				wi.played = true;
 				setInvisible(false, bannerView);
 				if (popupView != null) {
-					new ViewPopup(popupView.getContext(), popupView)
-							.show(parentView);
+					new ViewPopup(popupView).show(parentView);
 					parentView = popupView = null;
 				}
 			}

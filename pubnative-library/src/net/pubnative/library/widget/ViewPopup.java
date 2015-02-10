@@ -21,22 +21,38 @@
  */
 package net.pubnative.library.widget;
 
-import android.content.Context;
+import net.pubnative.library.R;
 import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.PopupWindow;
 
-public class ViewPopup extends PopupWindow {
+public class ViewPopup extends PopupWindow implements View.OnClickListener {
 
-	public ViewPopup(Context ctx, View view) {
+	private View closeView;
+
+	public ViewPopup(View view) {
 		super(view, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, true);
 		setBackgroundDrawable(new ColorDrawable());
+		closeView = getContentView().findViewById(R.id.view_close);
+		if (closeView != null) {
+			closeView.setOnClickListener(this);
+		}
 	}
 
 	public void show(View parent) {
 		showAtLocation(parent, Gravity.CENTER, 0, 0);
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (v == closeView) {
+			didClickClose();
+		}
+	}
+
+	protected void didClickClose() {
 	}
 
 }

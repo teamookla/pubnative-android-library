@@ -47,6 +47,18 @@ public class WorkerItem<T extends AdHolder<?>> {
 		return (mp != null && mp.isPlaying());
 	}
 
+	public void setMuted(boolean muted) {
+		this.muted = muted;
+		float val = muted ? 0 : 1;
+		mp.setVolume(val, val);
+	}
+
+	public boolean isMuted() {
+		return muted;
+	}
+
+	private boolean muted = true;;
+
 	boolean inFeedVideo() {
 		if (holder instanceof VideoAdHolder) {
 			return (((VideoAdHolder) holder).playButtonViewId) <= 0;

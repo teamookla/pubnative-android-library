@@ -79,6 +79,7 @@ public class InterstitialView extends LinearLayout {
 		boolean gotPortraitImage = (portraitImageView.getDrawable() != null);
 		// XXX OpenRTB hack
 		gotPortraitImage = false;
+		gotLandscapeImage = true;
 		// XXX OpenRTB hack
 		boolean port = ScreenUtil.isPortrait(getContext());
 		boolean swap = false;

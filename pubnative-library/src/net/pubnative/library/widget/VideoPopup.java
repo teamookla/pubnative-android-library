@@ -30,17 +30,15 @@ import net.pubnative.library.util.ViewUtil;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
-public class VideoPopup extends PopupWindow implements View.OnClickListener {
+public class VideoPopup extends ViewPopup {
 
 	public interface Listener {
 		void didVideoPopupClose(VideoPopup vp, WorkerItem<?> wi);
@@ -59,15 +57,15 @@ public class VideoPopup extends PopupWindow implements View.OnClickListener {
 
 	private final TextureView tv;
 	private final ImageView muteView;
-	private final ImageView closeView;
 	private final TextView skipButtonView;
 	private final CountDownView countDownView;
 
 	private Handler handler;
-	private boolean muted = false;
 
 	public VideoPopup(WorkerItem<VideoAdHolder> wi, TextureView parentTv,
 			Listener l) {
+		super(LayoutInflater.from(wi.getContext()).inflate(
+				R.layout.pn_view_video_popup, null));
 		this.wi = wi;
 		this.parentTv = parentTv;
 		this.l = l;
@@ -75,18 +73,14 @@ public class VideoPopup extends PopupWindow implements View.OnClickListener {
 		setHeight(LayoutParams.MATCH_PARENT);
 		setFocusable(true);
 		setBackgroundDrawable(new ColorDrawable());
-		rootView = (FrameLayout) LayoutInflater.from(wi.getContext()).inflate(
-				R.layout.pn_view_video_popup, null);
-		setContentView(rootView);
+		rootView = (FrameLayout) getContentView();
 		handler = new Handler();
 		tv = findViewById(rootView, R.id.view_texture);
 		muteView = findViewById(rootView, R.id.view_mute);
-		closeView = findViewById(rootView, R.id.view_close);
 		skipButtonView = findViewById(rootView, R.id.view_skip);
 		countDownView = findViewById(rootView, R.id.view_count_down);
 		//
 		tv.setOnClickListener(this);
-		closeView.setOnClickListener(this);
 		muteView.setOnClickListener(this);
 		setMuted(false);
 		skipButtonView.setOnClickListener(this);
@@ -101,8 +95,9 @@ public class VideoPopup extends PopupWindow implements View.OnClickListener {
 		handler.postDelayed(showSkipRunnable, skipAvailableIn);
 	}
 
+	@Override
 	public void show(View parent) {
-		showAtLocation(parent, Gravity.CENTER, 0, 0);
+		super.show(parent);
 		ViewUtil.setSurface(wi.mp, tv);
 		//
 		initSkip();
@@ -120,20 +115,23 @@ public class VideoPopup extends PopupWindow implements View.OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if (v == muteView) {
-			setMuted(!muted);
-		} else if (v == closeView) {
-			l.didVideoPopupClose(this, wi);
+			setMuted(!wi.isMuted());
 		} else if (v == tv || v == skipButtonView) {
 			l.didVideoPopupSkip(this, wi);
+		} else {
+			super.onClick(v);
 		}
 	}
 
+	@Override
+	protected void didClickClose() {
+		l.didVideoPopupClose(this, wi);
+	}
+
 	private void setMuted(boolean muted) {
-		this.muted = muted;
+		wi.setMuted(muted);
 		int resId = muted ? R.drawable.pn_ic_unmute : R.drawable.pn_ic_mute;
-		float val = muted ? 0 : 1;
 		muteView.setImageResource(resId);
-		wi.mp.setVolume(val, val);
 	}
 
 	private final Runnable showSkipRunnable = new Runnable() {
