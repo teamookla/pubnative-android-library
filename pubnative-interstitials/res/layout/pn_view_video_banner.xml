@@ -17,12 +17,11 @@
         android:layout_gravity="center"
         android:adjustViewBounds="true" />
 
-    <TextView
+    <ImageView
         android:id="@+id/view_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="▶︎"
-        android:textSize="@dimen/play_button_size" />
+        android:src="@drawable/ic_play"
+        android:layout_width="@dimen/play_button_size"
+        android:layout_height="@dimen/play_button_size"
+        android:layout_gravity="center" />
 
 </FrameLayout>
