@@ -23,7 +23,6 @@ package net.pubnative.library.vast;
 
 import java.util.ArrayList;
 
-import net.pubnative.library.vast.VastAd.Creative.TrackingEvent;
 
 import org.droidparts.annotation.serialize.XML;
 import org.droidparts.model.Model;
@@ -43,7 +42,7 @@ public class VastAd extends Model {
 
 	public String getEventUrl(VastEvent ev) {
 		Creative cr = creatives.get(0);
-		for (TrackingEvent te : cr.trackingEvents) {
+		for (Creative.TrackingEvent te : cr.trackingEvents) {
 			if (ev.key.equals(te.event)) {
 				return te.url;
 			}

@@ -43,7 +43,10 @@ public class NativeAd extends Ad implements
 	@JSON(key = PORTRAIT_BANNER_URL)
 	public String portraitBannerUrl;
 
-	@JSON(key = VIDEO_URL)
+// BEGIN_OOKLA_EDIT
+	//Make this field optional. It is not even in the docs yet
+	@JSON(key = VIDEO_URL, optional = true)
+// END_OOKLA_EDIT
 	public String videoUrl;
 
 	@JSON(key = CTA_TEXT)
