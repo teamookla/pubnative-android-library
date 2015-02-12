@@ -42,7 +42,10 @@ import net.pubnative.library.task.SendConfirmationTask;
 import net.pubnative.library.util.ImageFetcher;
 import net.pubnative.library.util.ViewUtil;
 import net.pubnative.library.util.WebRedirector;
-import net.pubnative.library.widget.VideoPopup;
+// BEGIN_OOKLA_EDIT
+// TextureView added in API 14
+//import net.pubnative.library.widget.VideoPopup;
+// END_OOKLA_EDIT
 
 import org.droidparts.concurrent.task.AsyncTaskResultListener;
 import org.droidparts.net.http.HTTPResponse;
@@ -56,7 +59,10 @@ import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnPreparedListener;
-import android.view.TextureView;
+// BEGIN_OOKLA_EDIT
+// TextureView added in API 14
+//import android.view.TextureView;
+// END_OOKLA_EDIT
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -248,43 +254,46 @@ public class PubNative {
 		}
 	}
 
-	private static void initVideo(final TextureView tv, final ImageView iv,
-			final Data d) {
-		//
-		ViewUtil.setSize(tv, 1, 1);
-		//
-		ViewUtil.setSurface(d.mp, tv);
-		//
-		d.mp.setOnPreparedListener(new OnPreparedListener() {
-
-			@Override
-			public void onPrepared(MediaPlayer mp) {
-				ViewUtil.setSize(tv, iv.getWidth(), iv.getHeight());
-				//
-				d.preparing = false;
-				d.prepared = true;
-				mp.start();
-				setInvisible(true, iv);
-				setInvisible(false, tv);
-			}
-		});
-		d.mp.setOnCompletionListener(new OnCompletionListener() {
-
-			@Override
-			public void onCompletion(MediaPlayer mp) {
-				d.played = true;
-				setInvisible(false, iv);
-				// mp.seekTo(mp.getDuration());
-			}
-		});
-		tv.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				new VideoPopup(d.mp, tv).show();
-			}
-		});
-	}
+// BEGIN_OOKLA_EDIT
+// TextureView added in API 14
+//	private static void initVideo(final TextureView tv, final ImageView iv,
+//			final Data d) {
+//		//
+//		ViewUtil.setSize(tv, 1, 1);
+//		//
+//		ViewUtil.setSurface(d.mp, tv);
+//		//
+//		d.mp.setOnPreparedListener(new OnPreparedListener() {
+//
+//			@Override
+//			public void onPrepared(MediaPlayer mp) {
+//				ViewUtil.setSize(tv, iv.getWidth(), iv.getHeight());
+//				//
+//				d.preparing = false;
+//				d.prepared = true;
+//				mp.start();
+//				setInvisible(true, iv);
+//				setInvisible(false, tv);
+//			}
+//		});
+//		d.mp.setOnCompletionListener(new OnCompletionListener() {
+//
+//			@Override
+//			public void onCompletion(MediaPlayer mp) {
+//				d.played = true;
+//				setInvisible(false, iv);
+//				// mp.seekTo(mp.getDuration());
+//			}
+//		});
+//		tv.setOnClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				new VideoPopup(d.mp, tv).show();
+//			}
+//		});
+//	}
+// END_OOKLA_EDIT
 
 	//
 

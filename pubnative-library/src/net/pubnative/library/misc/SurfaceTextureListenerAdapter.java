@@ -21,24 +21,27 @@
  */
 package net.pubnative.library.misc;
 
-import android.graphics.SurfaceTexture;
-import android.view.TextureView.SurfaceTextureListener;
-
-public abstract class SurfaceTextureListenerAdapter implements
-		SurfaceTextureListener {
-
-	@Override
-	public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width,
-			int height) {
-	}
-
-	@Override
-	public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-		return true;
-	}
-
-	@Override
-	public void onSurfaceTextureUpdated(SurfaceTexture surface) {
-	}
-
-}
+// BEGIN_OOKLA_EDIT
+// TextureView added in API 14
+//import android.graphics.SurfaceTexture;
+//import android.view.TextureView.SurfaceTextureListener;
+//
+//public abstract class SurfaceTextureListenerAdapter implements
+//		SurfaceTextureListener {
+//
+//	@Override
+//	public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width,
+//			int height) {
+//	}
+//
+//	@Override
+//	public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+//		return true;
+//	}
+//
+//	@Override
+//	public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+//	}
+//
+//}
+// END_OOKLA_EDIT

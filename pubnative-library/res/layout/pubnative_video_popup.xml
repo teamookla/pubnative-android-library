@@ -3,10 +3,13 @@
     android:layout_height="match_parent"
     android:background="@android:color/black" >
 
+<!-- BEGIN_OOKLA_EDIT
+    TextureView added in API 14
     <TextureView
         android:id="@+id/view_texture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center" />
+-->
 
 </FrameLayout>
