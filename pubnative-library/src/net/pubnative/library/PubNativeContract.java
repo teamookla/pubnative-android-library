@@ -22,8 +22,10 @@
 package net.pubnative.library;
 
 public interface PubNativeContract {
-
-	String BASE_URL = "http://api.pubnative.net/api/partner/v2/promotions/";
+//BEGIN_OOKLA_EDIT
+	//String BASE_URL = "http://api.pubnative.net/api/partner/v2/promotions/";
+	String BASE_URL = "https://api.pubnative.net/api/partner/v2/promotions/";
+//END_OOKLA_EDIT
 
 	String NATIVE = "native";
 	String IMAGE = "image";
