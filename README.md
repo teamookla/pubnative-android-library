@@ -62,7 +62,7 @@ Calling ```public void fillInDefaults(Context ctx)``` will make a request ready 
     * ```public static void showAd(AdRequest req, AdHolder<?>... holders)``` - execute the AdRequest and fill in the provided AdHolders.
     * ```public static void showAd(String appToken, AdHolder<?>... holders)``` - same as previous but automatically creates AdRequests.
     * ```public static void setListener(PubNativeListener listener)``` - sets a listener that will be notified on events.
-    * ```public static void showInPlayStore***(Activity act, Ad ad)``` - displays an an in the Play Store.
+    * ```public static void showInPlayStore***(Activity act, Ad ad)``` - displays an ad in the Play Store.
 
 Simple ImageAd Example
 ----------------------
